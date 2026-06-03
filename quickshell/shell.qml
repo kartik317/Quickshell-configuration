@@ -9,11 +9,11 @@ import "widgets"
 
 ShellRoot {
     IpcHandler {
-      target: "clock-widget"
+        target: "clock-widget"
 
-      function toggle() {
-          ClockState.clockVisible = !ClockState.clockVisible
-      }
+        function toggle() {
+            ClockState.clockVisible = !ClockState.clockVisible;
+        }
     }
 
     Variants {
@@ -30,9 +30,16 @@ ShellRoot {
             id: clockWindow
             property var modelData
             screen: modelData
-            anchors { top: true; bottom: true; left: true; right: true }
+            anchors {
+                top: true
+                bottom: true
+                left: true
+                right: true
+            }
             color: "transparent"
-            mask: Region { item: ClockState.clockVisible ? draggableClock : null }
+            mask: Region {
+                item: ClockState.clockVisible ? draggableClock : null
+            }
             WlrLayershell.layer: WlrLayer.Bottom
             visible: ClockState.clockVisible
             DraggableClock {

@@ -116,7 +116,6 @@ PanelWindow {
                                     pixelSize: 14
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             GaugeRing {
@@ -126,13 +125,9 @@ PanelWindow {
                                 value: val
                                 label: lbl
                             }
-
                         }
-
                     }
-
                 }
-
             }
 
             // Divider
@@ -198,7 +193,6 @@ PanelWindow {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: SystemState.toggleMute()
                                 }
-
                             }
 
                             Column {
@@ -217,7 +211,6 @@ PanelWindow {
                                             pixelSize: 10
                                             family: "JetBrainsMono Nerd Font"
                                         }
-
                                     }
 
                                     Text {
@@ -229,9 +222,7 @@ PanelWindow {
                                             bold: true
                                             family: "JetBrainsMono Nerd Font"
                                         }
-
                                     }
-
                                 }
 
                                 // ── Slider track (no clip so thumb can overflow) ──
@@ -263,11 +254,8 @@ PanelWindow {
                                                     duration: 100
                                                     easing.type: Easing.OutCubic
                                                 }
-
                                             }
-
                                         }
-
                                     }
 
                                     // Thumb ball
@@ -287,9 +275,7 @@ PanelWindow {
                                                 duration: 100
                                                 easing.type: Easing.OutCubic
                                             }
-
                                         }
-
                                     }
 
                                     // Hit area (vertically generous so thumb is easy to grab)
@@ -307,13 +293,9 @@ PanelWindow {
                                             }
                                         }
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
 
                     // ── Battery ─────────────────────────────
@@ -349,7 +331,6 @@ PanelWindow {
                                     pixelSize: 22
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             Column {
@@ -368,7 +349,6 @@ PanelWindow {
                                             pixelSize: 10
                                             family: "JetBrainsMono Nerd Font"
                                         }
-
                                     }
 
                                     Text {
@@ -380,9 +360,7 @@ PanelWindow {
                                             bold: true
                                             family: "JetBrainsMono Nerd Font"
                                         }
-
                                     }
-
                                 }
 
                                 Rectangle {
@@ -402,28 +380,19 @@ PanelWindow {
                                                 duration: 300
                                                 easing.type: Easing.OutCubic
                                             }
-
                                         }
 
                                         Behavior on color {
                                             ColorAnimation {
                                                 duration: 400
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
-
             }
 
             // ═══════════════════════════════════════════════
@@ -468,7 +437,6 @@ PanelWindow {
                                     pixelSize: 12
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             Text {
@@ -479,7 +447,6 @@ PanelWindow {
                                     pixelSize: 10
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             Text {
@@ -492,9 +459,7 @@ PanelWindow {
                                     pixelSize: 11
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
-
                         }
 
                         RowLayout {
@@ -509,7 +474,6 @@ PanelWindow {
                                     pixelSize: 12
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             Text {
@@ -520,7 +484,6 @@ PanelWindow {
                                     pixelSize: 11
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             Item {
@@ -535,7 +498,6 @@ PanelWindow {
                                     pixelSize: 12
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
 
                             Text {
@@ -546,22 +508,16 @@ PanelWindow {
                                     pixelSize: 11
                                     family: "JetBrainsMono Nerd Font"
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
-
             }
 
             Item {
                 width: parent.width
                 height: 16
             }
-
         }
 
         transform: Translate {
@@ -574,9 +530,7 @@ PanelWindow {
                     duration: 220
                     easing.type: Easing.OutCubic
                 }
-
             }
-
         }
 
         Behavior on opacity {
@@ -584,7 +538,6 @@ PanelWindow {
                 duration: 220
                 easing.type: Easing.OutCubic
             }
-
         }
 
         Behavior on scale {
@@ -592,9 +545,6 @@ PanelWindow {
                 duration: 220
                 easing.type: Easing.OutCubic
             }
-
         }
-
     }
-
 }

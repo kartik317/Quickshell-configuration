@@ -11,8 +11,8 @@ Item {
     height: clockWidget.implicitHeight
 
     Component.onCompleted: {
-        x = posX
-        y = posY
+        x = posX;
+        y = posY;
     }
 
     MouseArea {
