@@ -3,14 +3,16 @@ import QtQuick
 Item {
     id: root
 
+    property int posX: 0
+    property int posY: 50
     required property var screen
 
     width: clockWidget.implicitWidth
     height: clockWidget.implicitHeight
 
     Component.onCompleted: {
-        x = 0
-        y = 50
+        x = posX
+        y = posY
     }
 
     MouseArea {

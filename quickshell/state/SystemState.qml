@@ -16,6 +16,8 @@ QtObject {
     property bool   batteryCharging: false
     property string activeWindow:  "Window"
     property string currentLayout: "Tile"
+    property bool   volumeMuted:   false
+    property int    _previousVolume: 50
 
     // CPU tracking (internal)
     property var _lastCpuIdle:  0
@@ -159,5 +161,27 @@ QtObject {
             windowProc.running = true
             layoutProc.running = true
         }
+    }
+
+    function setVolume(level) {
+        const clampedLevel = Math.max(0, Math.min(100, level))
+        const volumeFraction = (clampedLevel / 100).toFixed(2)
+        const cmd = ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", volumeFraction]
+        const proc = Qt.createQmlObject('import Quickshell.Io; Process {}', root)
+        proc.command = cmd
+        proc.running = true
+        volumeLevel = clampedLevel
+        if (clampedLevel > 0) volumeMuted = false
+        _previousVolume = clampedLevel
+    }
+
+    function toggleMute() {
+        if (volumeMuted) {
+            setVolume(_previousVolume)
+        } else {
+            _previousVolume = volumeLevel
+            setVolume(0)
+        }
+        volumeMuted = !volumeMuted
     }
 }
