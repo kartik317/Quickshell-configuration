@@ -2,5 +2,5 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    property bool clockVisible: false
+    property bool clockVisible: true
 }

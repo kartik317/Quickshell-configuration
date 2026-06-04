@@ -6,15 +6,13 @@ Item {
     implicitWidth: 510
     implicitHeight: 130
 
-    property color textColor: Colors.colFg
-    property color shadowColor: Colors.colBg
+    property color textColor: Colors.colCyan
 
     Behavior on textColor { ColorAnimation { duration: 800; easing.type: Easing.OutCubic } }
-    Behavior on shadowColor { ColorAnimation { duration: 800; easing.type: Easing.OutCubic } }
 
     property string dayOfWeek: Qt.formatDateTime(new Date(), "dddd").toUpperCase()
     property string fullDate: Qt.formatDateTime(new Date(), "dd MMMM, yyyy").toUpperCase()
-    property string timeStr: "-   " + Qt.formatDateTime(new Date(), "HH:mm") + "   -"
+    property string timeStr: Qt.formatDateTime(new Date(), "HH:mm")
 
     // Calculate adaptive font size to exactly match widget width
     property real dayFontSize: {
@@ -58,20 +56,11 @@ Item {
         spacing: 12
         width: clockRoot.width
 
-        // Day of week (shadow + main)
+        // Day of week
         Item {
             width: parent.width
             height: clockRoot.dayFontSize * 1.2  // Height based on actual font size
-            Text {
-                text: clockRoot.dayOfWeek
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: 6
-                font.family: "Anurati"
-                font.pixelSize: clockRoot.dayFontSize
-                color: clockRoot.shadowColor
-                font.letterSpacing: clockRoot.dayFontSize * 0.11
-                horizontalAlignment: Text.AlignHCenter
-            }
+            
             Text {
                 text: clockRoot.dayOfWeek
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -84,19 +73,11 @@ Item {
             }
         }
 
-        // Date (shadow + main)
+        // Date
         Item {
             width: parent.width
             height: 36
-            Text {
-                text: clockRoot.fullDate
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: 4
-                font.family: "Orbitron"
-                font.pixelSize: 22
-                color: clockRoot.shadowColor
-                horizontalAlignment: Text.AlignHCenter
-            }
+            
             Text {
                 text: clockRoot.fullDate
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -108,19 +89,11 @@ Item {
             }
         }
 
-        // Time (shadow + main)
+        // Time
         Item {
             width: parent.width
             height: 40
-            Text {
-                text: clockRoot.timeStr
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: 4
-                font.family: "Orbitron"
-                font.pixelSize: 26
-                color: clockRoot.shadowColor
-                horizontalAlignment: Text.AlignHCenter
-            }
+            
             Text {
                 text: clockRoot.timeStr
                 anchors.horizontalCenter: parent.horizontalCenter
