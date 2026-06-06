@@ -11,6 +11,8 @@ Item {
     property string label: ""
     property string unit: "%"
     property int strokeWidth: 7
+    property color customArcColor: Qt.rgba(0, 0, 0, 0)
+    property bool useCustomColor: false
 
     // Smooth animated fill
     property real animFill: 0
@@ -23,9 +25,7 @@ Item {
     onValueChanged: animFill = value
     Component.onCompleted: animFill = value
 
-    readonly property color arcColor: value < 50 ? Colors.colBlue :   // blue
-    value < 80 ? Colors.colYellow :   // yellow
-    Colors.colRed     // red
+    readonly property color arcColor: useCustomColor ? customArcColor : (value < 50 ? Colors.colBlue : value < 80 ? Colors.colYellow : Colors.colRed)
 
     Canvas {
         id: cv

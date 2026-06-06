@@ -5,17 +5,10 @@ import QtQuick
 import "./state"
 import "./bar"
 import Quickshell.Io
-import "widgets"
+import "./widgets"
 
 ShellRoot {
-    IpcHandler {
-        target: "clock-widget"
-
-        function toggle() {
-            ClockState.clockVisible = !ClockState.clockVisible;
-        }
-    }
-
+    // ── Bar ────────────────────────────────────────────────────────────────
     Variants {
         model: Quickshell.screens
         Bar {
@@ -24,6 +17,7 @@ ShellRoot {
         }
     }
 
+    // ── Draggable clock overlay ────────────────────────────────────────────
     Variants {
         model: Quickshell.screens
         PanelWindow {
@@ -49,10 +43,20 @@ ShellRoot {
         }
     }
 
+    // ── System monitor ─────────────────────────────────────────────────────
     Variants {
         model: Quickshell.screens
         SysMonitor {
             id: sysMonitor
+            property var modelData
+            screen: modelData
+        }
+    }
+
+    // ── Control panel (volume + brightness, slides in from right) ──────────
+    Variants {
+        model: Quickshell.screens
+        ControlPanel {
             property var modelData
             screen: modelData
         }

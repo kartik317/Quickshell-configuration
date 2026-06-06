@@ -13,7 +13,7 @@ PanelWindow {
         right: true
     }
     implicitHeight: 30
-    color: Qt.alpha(Colors.colBg, 0.6)
+    color: Qt.alpha(Colors.colBg, 0.85)
 
     // Font config — adjust here only
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
@@ -21,7 +21,7 @@ PanelWindow {
 
     Rectangle {
         anchors.fill: parent
-        color: Qt.alpha(Colors.colBg, 0.6)
+        color: Qt.alpha(Colors.colBg, 0.85)
 
         RowLayout {
             anchors.fill: parent
@@ -56,17 +56,7 @@ PanelWindow {
             Separator {}
 
             // Layout mode
-            Text {
-                text: SystemState.currentLayout
-                color: Colors.colFg
-                font.pixelSize: fontSize
-                font.family: fontFamily
-                font.bold: true
-                Layout.leftMargin: 5
-                Layout.rightMargin: 5
-            }
-
-            Separator {}
+            
 
             // Active window (fills remaining space) — hover to show system monitor
             MouseArea {
@@ -87,7 +77,7 @@ PanelWindow {
                         fill: parent
                         leftMargin: 8
                     }
-                    text: SystemState.activeWindow
+                    //text: SystemState.activeWindow
                     color: Colors.colPurple
                     font.pixelSize: fontSize
                     font.family: fontFamily
@@ -120,11 +110,8 @@ PanelWindow {
                 }
             }
 
-            // Right side: stats + clock
-            SysStats {
-                fontFamily: root.fontFamily
-                fontSize: root.fontSize
-            }
+            Separator {}
+
             Clock {
                 fontFamily: root.fontFamily
                 fontSize: root.fontSize

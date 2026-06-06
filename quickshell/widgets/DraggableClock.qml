@@ -1,4 +1,9 @@
 import QtQuick
+import Quickshell
+import Quickshell.Wayland
+import Quickshell.Hyprland
+import Quickshell.Io
+import "../state"
 
 Item {
     id: root
@@ -6,6 +11,13 @@ Item {
     property int posX: 0
     property int posY: 50
     required property var screen
+
+    IpcHandler {
+        target: "clock-widget"
+        function toggle() {
+            ClockState.clockVisible = !ClockState.clockVisible
+        }
+    }
 
     width: clockWidget.implicitWidth
     height: clockWidget.implicitHeight

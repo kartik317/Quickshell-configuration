@@ -18,6 +18,8 @@ QtObject {
     property string currentLayout: "Tile"
     property bool volumeMuted: false
     property int _previousVolume: 50
+    property int cpuTemp: 0
+    property int gpuTemp: 0
 
     // CPU tracking (internal)
     property var _lastCpuIdle: 0
@@ -148,6 +150,28 @@ QtObject {
                 }
             }
             Component.onCompleted: running = true
+        },
+        Process {
+            id: cpuTempProc
+            command: ["sh", "-c", "cat /sys/class/hwmon/hwmon5/temp1_input 2>/dev/null | awk '{print int($1/1000)}' || echo 0"]
+            stdout: SplitParser {
+                onRead: data => {
+                    if (data)
+                        root.cpuTemp = Math.round(parseFloat(data.trim()));
+                }
+            }
+            Component.onCompleted: running = true
+        },
+        Process {
+            id: gpuTempProc
+            command: ["sh", "-c", "cat /sys/class/hwmon/hwmon5/temp1_input 2>/dev/null | awk '{print int($1/1000)}' || echo 0"] // CPU and GPU temps are same because of I'm on intel integrated graphics, but this can be changed to the appropriate sensor for discrete GPUs
+            stdout: SplitParser {
+                onRead: data => {
+                    if (data)
+                        root.gpuTemp = Math.round(parseFloat(data.trim()));
+                }
+            }
+            Component.onCompleted: running = true
         }
     ]
 
@@ -163,6 +187,8 @@ QtObject {
             volProc.running = true;
             batLevelProc.running = true;
             batStatusProc.running = true;
+            cpuTempProc.running = true;
+            gpuTempProc.running = true;
         }
     }
 
@@ -207,5 +233,5 @@ QtObject {
             setVolume(0);
         }
         volumeMuted = !volumeMuted;
-    }
+    } 
 }
