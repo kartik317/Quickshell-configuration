@@ -35,11 +35,13 @@ PanelWindow {
     anchors.top:    true
     anchors.bottom: true
 
-    width: root.open ? 160 : 1
+    // Window is exactly the card width — no floating gap
+    width: 140
     color: "transparent"
 
     // ── Slide ──────────────────────────────────────────────────────────────
-    property real slideOffset: open ? 0 : panelCard.width + 16
+    // slideOffset=0 → card flush with right edge; closed → card fully off-screen
+    property real slideOffset: open ? 0 : panelCard.width
     Behavior on slideOffset {
         NumberAnimation { duration: 340; easing.type: Easing.OutExpo }
     }
@@ -73,21 +75,21 @@ PanelWindow {
     }
 
     // ── Dismiss on click-outside ───────────────────────────────────────────
-   MouseArea {
+    MouseArea {
         anchors.fill: parent
         z: -1
         enabled: root.open
-        hoverEnabled: root.open     // optional, prevents cursor fighting
-    
+        hoverEnabled: root.open
+
         onClicked: mouse => {
             const p = mapToItem(panelCard, mouse.x, mouse.y)
             if (!panelCard.contains(p))
-             root.open = false
+                root.open = false
         }
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  Panel card
+    //  Panel card — docked flush to the right screen edge
     // ═══════════════════════════════════════════════════════════════════════
     Rectangle {
         id: panelCard
@@ -95,17 +97,31 @@ PanelWindow {
         width:  140
         height: 340
         anchors.verticalCenter: parent.verticalCenter
-        x: root.slideOffset + 8
+
+        // x=0 → right edge of window == right edge of screen (anchors.right)
+        // slideOffset pushes it off to the right when closed
+        x: root.slideOffset
 
         color:   Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.93)
-        radius:  16
+
+        // Left corners rounded, right corners flush with screen edge
+        topLeftRadius:     16
+        bottomLeftRadius:  16
+        topRightRadius:    0
+        bottomRightRadius: 0
+
         opacity: root.open ? 1.0 : 0.0
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        // Border
+        // Border — only on left + top + bottom, not the docked right edge
         Rectangle {
-            anchors.fill: parent; radius: parent.radius; z: 1
+            anchors.fill: parent
+            z: 1
             color: "transparent"
+            topLeftRadius:     parent.topLeftRadius
+            bottomLeftRadius:  parent.bottomLeftRadius
+            topRightRadius:    0
+            bottomRightRadius: 0
             border.color: Qt.alpha(Colors.colFg, 0.10)
             border.width: 1
         }
@@ -140,9 +156,7 @@ PanelWindow {
                 Layout.fillHeight: true
                 Layout.fillWidth:  true
 
-                iconText:    root.brightnessValue < 30 ? "\uf185"
-                             : root.brightnessValue < 70 ? "\uf185"
-                             :                             "\uf185"
+                iconText:    "\uf185"
                 label:       "Bri"
                 sliderValue: root.brightnessValue
                 muted:       false
@@ -199,17 +213,13 @@ PanelWindow {
         }
 
         // ── Custom vertical slider ─────────────────────────────────────────
-        // Plain Item + MouseArea — avoids all Qt Quick Controls drag quirks.
-        // Top = 100 (max), Bottom = 0 (min).
         Item {
             id: sliderItem
             Layout.fillHeight: true
             Layout.alignment:  Qt.AlignHCenter
-            implicitWidth:     40    // wide enough for comfortable touch/drag
+            implicitWidth:     40
 
-            // Effective slider height (leave room for handle overhang)
             readonly property int trackH:    height - handle.height
-            // 0..1 fill fraction, clamped
             readonly property real fraction: Math.max(0, Math.min(1, block.sliderValue / 100.0))
 
             // Track background
@@ -239,7 +249,6 @@ PanelWindow {
                 id: handle
                 width: 16; height: 16; radius: 8
                 anchors.horizontalCenter: parent.horizontalCenter
-                // fraction=1 → y=0 (top);  fraction=0 → y=trackH (bottom)
                 y: (1.0 - sliderItem.fraction) * sliderItem.trackH
                 color: dragArea.pressed ? Colors.colPurple
                        : block.muted    ? Colors.colBlack
@@ -247,16 +256,13 @@ PanelWindow {
                 scale: dragArea.pressed ? 1.25 : 1.0
                 Behavior on color { ColorAnimation  { duration: 150 } }
                 Behavior on scale { NumberAnimation { duration: 90  } }
-                // No Behavior on y — instant follow during drag feels right
             }
 
-            // Drag / click — covers the full item width for easy interaction
             MouseArea {
                 id: dragArea
                 anchors.fill: parent
 
                 function valueFromY(my) {
-                    // Clamp mouseY to usable track range
                     const clamped = Math.max(handle.height / 2,
                                     Math.min(sliderItem.height - handle.height / 2, my))
                     const ratio   = 1.0 - (clamped - handle.height / 2) / sliderItem.trackH
