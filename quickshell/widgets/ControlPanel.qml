@@ -35,8 +35,7 @@ PanelWindow {
     anchors.top:    true
     anchors.bottom: true
 
-    // Window is exactly the card width — no floating gap
-    width: 140
+    width: root.open ? 140 : 1
     color: "transparent"
 
     // ── Slide ──────────────────────────────────────────────────────────────

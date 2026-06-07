@@ -5,7 +5,7 @@ import QtQuick
 import "./state"
 import "./bar"
 import Quickshell.Io
-import "./widgets"
+import "widgets"
 
 ShellRoot {
     // ── Bar ────────────────────────────────────────────────────────────────
@@ -57,6 +57,15 @@ ShellRoot {
     Variants {
         model: Quickshell.screens
         ControlPanel {
+            property var modelData
+            screen: modelData
+        }
+    }
+
+    // ── Power menu overlay ─────────────────────────────────────────────────
+    Variants {
+        model: Quickshell.screens
+        PowerMenu {
             property var modelData
             screen: modelData
         }

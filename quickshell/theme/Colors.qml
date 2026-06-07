@@ -2,25 +2,25 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    readonly property color colBg: "#1F1D1C"
-    readonly property color colFg: "#FDFAF6"
+    readonly property color colBg: "#0E1010"
+    readonly property color colFg: "#FFF1D1"
 
-    readonly property color colBlack: "#464442"
-    readonly property color colRed: "#4A5058"
-    readonly property color colGreen: "#95634D"
-    readonly property color colYellow: "#968567"
-    readonly property color colBlue: "#D58D42"
-    readonly property color colPurple: "#CBBB8A"
-    readonly property color colCyan: "#F8F1E4"
-    readonly property color colWhite: "#F3F0E9"
+    readonly property color colBlack: "#373939"
+    readonly property color colRed: "#136067"
+    readonly property color colGreen: "#868157"
+    readonly property color colYellow: "#B483A9"
+    readonly property color colBlue: "#E2824B"
+    readonly property color colPurple: "#A5C9C1"
+    readonly property color colCyan: "#FFD77C"
+    readonly property color colWhite: "#F7E3B5"
 
-    readonly property color colBrightBlack: "#AAA8A3"
-    readonly property color colBrightRed: "#4A5058"
-    readonly property color colBrightGreen: "#95634D"
-    readonly property color colBrightYellow: "#968567"
-    readonly property color colBrightBlue: "#D58D42"
-    readonly property color colBrightPurple: "#CBBB8A"
-    readonly property color colBrightCyan: "#F8F1E4"
-    readonly property color colBrightWhite: "#F3F0E9"
+    readonly property color colBrightBlack: "#AD9F7F"
+    readonly property color colBrightRed: "#136067"
+    readonly property color colBrightGreen: "#868157"
+    readonly property color colBrightYellow: "#B483A9"
+    readonly property color colBrightBlue: "#E2824B"
+    readonly property color colBrightPurple: "#A5C9C1"
+    readonly property color colBrightCyan: "#FFD77C"
+    readonly property color colBrightWhite: "#F7E3B5"
 }
 
