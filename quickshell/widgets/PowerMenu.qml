@@ -30,7 +30,7 @@ PanelWindow {
 
     // magic code :)
     mask: Region {
-        item: panelCard
+        item: powerCard
     }
 
     color: "transparent"
@@ -41,7 +41,7 @@ PanelWindow {
 
     // ── Slide offset ────────────────────────────────────────────────────────
     // 0 = flush with left edge (open); card.width = fully off-screen (closed)
-    property real slideOffset: PowerMenuState.powerVisible ? 0 : card.width + 8
+    property real slideOffset: PowerMenuState.powerVisible ? 0 : powerCard.width + 8
     Behavior on slideOffset {
         NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
     }
