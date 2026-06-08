@@ -56,9 +56,30 @@ PanelWindow {
             Separator {}
 
             // Layout mode
+            Text {
+                text:           SystemState.currentLayout
+                color:          Colors.colFg
+                font.pixelSize: fontSize
+                font.family:    fontFamily
+                font.bold:      true
+                Layout.rightMargin: 5
+            }
+
+            Separator {}
+
+            // Active window (fills remaining space)
+            Text {
+                text:           SystemState.activeWindow
+                color:          Colors.colPurple
+                font.pixelSize: fontSize
+                font.family:    fontFamily
+                font.bold:      true
+                elide:              Text.ElideRight
+                maximumLineCount:   1
+            }
             
 
-            // Active window (fills remaining space) — hover to show system monitor
+            // hover to show system monitor
             MouseArea {
                 Layout.fillWidth: true
                 implicitHeight: parent.height

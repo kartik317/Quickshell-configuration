@@ -27,7 +27,7 @@ PanelWindow {
     }
 
     // Window is always present — just 1px wide when closed
-    width: PowerMenuState.powerVisible ? 208 : 1
+    implicitWidth: PowerMenuState.powerVisible ? 208 : 1
 
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
@@ -39,10 +39,7 @@ PanelWindow {
     // 0 = flush with left edge (open); card.width = fully off-screen (closed)
     property real slideOffset: PowerMenuState.powerVisible ? 0 : card.width + 8
     Behavior on slideOffset {
-        NumberAnimation {
-            duration: 340
-            easing.type: Easing.OutExpo
-        }
+        NumberAnimation { duration: 600; easing.type: Easing.InOutSine }
     }
 
     // ── Process runners ─────────────────────────────────────────────────────
@@ -99,6 +96,9 @@ PanelWindow {
 
         // Translucent background
         color: Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.95)
+
+        opacity: PowerMenuState.powerVisible ? 1.0 : 0.0
+        Behavior on opacity { NumberAnimation { duration: 560; easing.type: Easing.InOutSine } }
 
         // Border overlay — skips the flush left edge visually
         Rectangle {
@@ -183,7 +183,7 @@ PanelWindow {
     }
 
     // ── Dismiss on Escape ───────────────────────────────────────────────────
-    Keys.onEscapePressed: PowerMenuState.hide()
+    //Keys.onEscapePressed: PowerMenuState.hide()
 
     // ── Inner component: one menu row ───────────────────────────────────────
     component PowerButton: Rectangle {

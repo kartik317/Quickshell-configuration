@@ -24,12 +24,7 @@ ShellRoot {
             id: clockWindow
             property var modelData
             screen: modelData
-            anchors {
-                top: true
-                bottom: true
-                left: true
-                right: true
-            }
+            anchors { top: true; bottom: true; left: true; right: true }
             color: "transparent"
             mask: Region {
                 item: ClockState.clockVisible ? draggableClock : null
@@ -53,10 +48,19 @@ ShellRoot {
         }
     }
 
-    // ── Control panel (volume + brightness, slides in from right) ──────────
+    // ── Control panel (manual toggle, slides from right) ───────────────────
     Variants {
         model: Quickshell.screens
-        ControlPanel {
+        Vol_Bri_Controls {
+            property var modelData
+            screen: modelData
+        }
+    }
+
+    // ── Volume OSD (auto-shows on PipeWire sink events) ────────────────────
+    Variants {
+        model: Quickshell.screens
+        VolumeOSD {
             property var modelData
             screen: modelData
         }
@@ -71,3 +75,4 @@ ShellRoot {
         }
     }
 }
+

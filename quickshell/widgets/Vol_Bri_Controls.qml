@@ -28,21 +28,20 @@ PanelWindow {
     // ── Layer shell ────────────────────────────────────────────────────────
     WlrLayershell.layer:         WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
-    WlrLayershell.namespace:     "qs-controlpanel-noanim"
+    WlrLayershell.namespace:     "qs-volbri-noanim"
     WlrLayershell.exclusiveZone: 0
 
     anchors.right:  true
     anchors.top:    true
     anchors.bottom: true
 
-    width: root.open ? 140 : 1
+    implicitWidth: root.open ? 140 : 1
     color: "transparent"
 
     // ── Slide ──────────────────────────────────────────────────────────────
-    // slideOffset=0 → card flush with right edge; closed → card fully off-screen
     property real slideOffset: open ? 0 : panelCard.width
     Behavior on slideOffset {
-        NumberAnimation { duration: 340; easing.type: Easing.OutExpo }
+        NumberAnimation { duration: 600; easing.type: Easing.InOutSine }
     }
 
     // ── Read brightness once at startup ────────────────────────────────────
@@ -110,7 +109,7 @@ PanelWindow {
         bottomRightRadius: 0
 
         opacity: root.open ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: 560; easing.type: Easing.InOutSine } }
 
         // Border — only on left + top + bottom, not the docked right edge
         Rectangle {
