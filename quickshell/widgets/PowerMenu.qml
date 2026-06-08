@@ -26,8 +26,12 @@ PanelWindow {
         left: true
     }
 
-    // Window is always present — just 1px wide when closed
-    implicitWidth: PowerMenuState.powerVisible ? 208 : 1
+    implicitWidth: 208
+
+    // magic code :)
+    mask: Region {
+        item: panelCard
+    }
 
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
@@ -39,7 +43,7 @@ PanelWindow {
     // 0 = flush with left edge (open); card.width = fully off-screen (closed)
     property real slideOffset: PowerMenuState.powerVisible ? 0 : card.width + 8
     Behavior on slideOffset {
-        NumberAnimation { duration: 600; easing.type: Easing.InOutSine }
+        NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
     }
 
     // ── Process runners ─────────────────────────────────────────────────────
@@ -98,7 +102,7 @@ PanelWindow {
         color: Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.95)
 
         opacity: PowerMenuState.powerVisible ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 560; easing.type: Easing.InOutSine } }
+        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.InOutSine } }
 
         // Border overlay — skips the flush left edge visually
         Rectangle {

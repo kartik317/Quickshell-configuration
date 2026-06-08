@@ -23,6 +23,12 @@ PanelWindow {
     anchors.left:   true
     anchors.right:  true
     implicitHeight: 100
+
+    // magic code :)
+    mask: Region {
+        item: osdCard
+    }
+
     color: "transparent"
 
     // ── Auto-hide ───────────────────────────────────────────────────────────

@@ -35,13 +35,19 @@ PanelWindow {
     anchors.top:    true
     anchors.bottom: true
 
-    implicitWidth: root.open ? 140 : 1
+    implicitWidth: 140
+
+    // magic code :)
+    mask: Region {
+        item: panelCard
+    }
+
     color: "transparent"
 
     // ── Slide ──────────────────────────────────────────────────────────────
     property real slideOffset: open ? 0 : panelCard.width
     Behavior on slideOffset {
-        NumberAnimation { duration: 600; easing.type: Easing.InOutSine }
+        NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
     }
 
     // ── Read brightness once at startup ────────────────────────────────────
@@ -109,7 +115,7 @@ PanelWindow {
         bottomRightRadius: 0
 
         opacity: root.open ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 560; easing.type: Easing.InOutSine } }
+        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.InOutSine } }
 
         // Border — only on left + top + bottom, not the docked right edge
         Rectangle {
