@@ -25,11 +25,12 @@ PanelWindow {
     IpcHandler {
         target: "systemMonitor-widget"
         function toggle() {
-            SysMonitorState.toggle()
+            SysMonitorState.toggle();
         }
     }
 
     WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.namespace: "qs-sysmonitor-noani"
     WlrLayershell.exclusiveZone: -1
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 

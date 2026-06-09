@@ -16,7 +16,6 @@ ShellRoot {
             screen: modelData
         }
     }
-
     // ── Draggable clock overlay ────────────────────────────────────────────
     Variants {
         model: Quickshell.screens
@@ -24,7 +23,12 @@ ShellRoot {
             id: clockWindow
             property var modelData
             screen: modelData
-            anchors { top: true; bottom: true; left: true; right: true }
+            anchors {
+                top: true
+                bottom: true
+                left: true
+                right: true
+            }
             color: "transparent"
             mask: Region {
                 item: ClockState.clockVisible ? draggableClock : null
@@ -37,7 +41,6 @@ ShellRoot {
             }
         }
     }
-
     // ── System monitor ─────────────────────────────────────────────────────
     Variants {
         model: Quickshell.screens
@@ -47,7 +50,6 @@ ShellRoot {
             screen: modelData
         }
     }
-
     // ── Control panel (manual toggle, slides from right) ───────────────────
     Variants {
         model: Quickshell.screens
@@ -56,7 +58,6 @@ ShellRoot {
             screen: modelData
         }
     }
-
     // ── Volume OSD (auto-shows on PipeWire sink events) ────────────────────
     Variants {
         model: Quickshell.screens
@@ -65,7 +66,6 @@ ShellRoot {
             screen: modelData
         }
     }
-
     // ── Power menu overlay ─────────────────────────────────────────────────
     Variants {
         model: Quickshell.screens
@@ -74,5 +74,12 @@ ShellRoot {
             screen: modelData
         }
     }
+    // ── App launcher (slides up from bottom center) ────────────────────────
+    Variants {
+        model: Quickshell.screens
+        AppLauncher {
+            property var modelData
+            screen: modelData
+        }
+    }
 }
-

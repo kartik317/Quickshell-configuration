@@ -43,7 +43,10 @@ PanelWindow {
     // 0 = flush with left edge (open); card.width = fully off-screen (closed)
     property real slideOffset: PowerMenuState.powerVisible ? 0 : powerCard.width + 8
     Behavior on slideOffset {
-        NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.InOutSine
+        }
     }
 
     // ── Process runners ─────────────────────────────────────────────────────
@@ -73,17 +76,9 @@ PanelWindow {
         proc.running = true;
     }
 
-    // ── Invisible click-outside dismissal ───────────────────────────────────
-    MouseArea {
-        anchors.fill: parent
-        z: -1
-        enabled: PowerMenuState.powerVisible
-        onClicked: PowerMenuState.hide()
-    }
-
     // ── Menu card ───────────────────────────────────────────────────────────
     Rectangle {
-        id: card
+        id: powerCard
 
         anchors.verticalCenter: parent.verticalCenter
 
@@ -102,7 +97,12 @@ PanelWindow {
         color: Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.95)
 
         opacity: PowerMenuState.powerVisible ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.InOutSine } }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 220
+                easing.type: Easing.InOutSine
+            }
+        }
 
         // Border overlay — skips the flush left edge visually
         Rectangle {
