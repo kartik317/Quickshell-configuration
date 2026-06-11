@@ -2,11 +2,18 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Io
 import "../theme"
 import "../state"
 
 PanelWindow {
     id: root
+
+    Process {
+        id: appLauncherProcess
+        command: ["qs", "ipc", "call", "applauncher", "toggle"]
+    }
+
     anchors {
         top: true
         left: true
@@ -41,6 +48,14 @@ PanelWindow {
                     source: "../icons/arch.png"
                     fillMode: Image.PreserveAspectFit
                 }
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        appLauncherProcess.running = true;
+                    }
+                }
             }
 
             Item {
@@ -57,11 +72,11 @@ PanelWindow {
 
             // Layout mode
             Text {
-                text:           SystemState.currentLayout
-                color:          Colors.colFg
+                text: SystemState.currentLayout
+                color: Colors.colFg
                 font.pixelSize: fontSize
-                font.family:    fontFamily
-                font.bold:      true
+                font.family: fontFamily
+                font.bold: true
                 Layout.rightMargin: 5
             }
 
@@ -69,15 +84,14 @@ PanelWindow {
 
             // Active window (fills remaining space)
             Text {
-                text:           SystemState.activeWindow
-                color:          Colors.colPurple
+                text: SystemState.activeWindow
+                color: Colors.colPurple
                 font.pixelSize: fontSize
-                font.family:    fontFamily
-                font.bold:      true
-                elide:              Text.ElideRight
-                maximumLineCount:   1
+                font.family: fontFamily
+                font.bold: true
+                elide: Text.ElideRight
+                maximumLineCount: 1
             }
-            
 
             // hover to show system monitor
             MouseArea {
@@ -145,3 +159,4 @@ PanelWindow {
         }
     }
 }
+

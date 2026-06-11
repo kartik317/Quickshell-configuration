@@ -12,6 +12,31 @@ PanelWindow {
 
     property var screen
 
+    // ── Keyboard selection state ─────────────────────────────────────────────
+    property int selectedIndex: -1
+    readonly property int buttonCount: 5
+
+    function activateSelected() {
+        switch (selectedIndex) {
+            case 0: runAndClose(procLock); break;
+            case 1: runAndClose(procSuspend); break;
+            case 2: runAndClose(procHibernate); break;
+            case 3: runAndClose(procReboot); break;
+            case 4: runAndClose(procShutdown); break;
+        }
+    }
+
+    // Reset selection / grab focus on visibility change
+    Connections {
+        target: PowerMenuState
+        function onPowerVisibleChanged() {
+            if (PowerMenuState.powerVisible)
+                powerCard.forceActiveFocus()
+            else
+                root.selectedIndex = -1
+        }
+    }
+
     IpcHandler {
         target: "powermenu"
         function toggle() {
@@ -19,7 +44,7 @@ PanelWindow {
         }
     }
 
-    // ── Layer / geometry ────────────────────────────────────────────────────
+    // ── Layer / geometry ─────────────────────────────────────────────────────
     anchors {
         top: true
         bottom: true
@@ -28,7 +53,6 @@ PanelWindow {
 
     implicitWidth: 208
 
-    // magic code :)
     mask: Region {
         item: powerCard
     }
@@ -39,17 +63,13 @@ PanelWindow {
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
     WlrLayershell.namespace: "qs-powermenu-noanim"
 
-    // ── Slide offset ────────────────────────────────────────────────────────
-    // 0 = flush with left edge (open); card.width = fully off-screen (closed)
+    // ── Slide offset ─────────────────────────────────────────────────────────
     property real slideOffset: PowerMenuState.powerVisible ? 0 : powerCard.width + 8
     Behavior on slideOffset {
-        NumberAnimation {
-            duration: 300
-            easing.type: Easing.InOutSine
-        }
+        NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
     }
 
-    // ── Process runners ─────────────────────────────────────────────────────
+    // ── Process runners ──────────────────────────────────────────────────────
     Process {
         id: procLock
         command: ["loginctl", "lock-session"]
@@ -76,13 +96,30 @@ PanelWindow {
         proc.running = true;
     }
 
-    // ── Menu card ───────────────────────────────────────────────────────────
+    // ── Menu card ────────────────────────────────────────────────────────────
     Rectangle {
         id: powerCard
 
+        focus: true
+
+        // ── Key handling (must be on an Item, not PanelWindow) ───────────────
+        Keys.onPressed: function(event) {
+            if (!PowerMenuState.powerVisible) return;
+            if (event.key === Qt.Key_Up) {
+                root.selectedIndex = (root.selectedIndex - 1 + root.buttonCount) % root.buttonCount;
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Down) {
+                root.selectedIndex = (root.selectedIndex + 1) % root.buttonCount;
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                if (root.selectedIndex >= 0) root.activateSelected();
+                event.accepted = true;
+            }
+        }
+        Keys.onEscapePressed: PowerMenuState.hide()
+
         anchors.verticalCenter: parent.verticalCenter
 
-        // Slide: negative x moves card left off-screen
         x: -root.slideOffset
 
         width: 200
@@ -93,18 +130,12 @@ PanelWindow {
         topRightRadius: 18
         bottomRightRadius: 18
 
-        // Translucent background
         color: Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.95)
 
         opacity: PowerMenuState.powerVisible ? 1.0 : 0.0
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 220
-                easing.type: Easing.InOutSine
-            }
-        }
+        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.InOutSine } }
 
-        // Border overlay — skips the flush left edge visually
+        // Border overlay
         Rectangle {
             anchors.fill: parent
             z: 1
@@ -117,7 +148,7 @@ PanelWindow {
             border.width: 1
         }
 
-        // Eat clicks so the background MouseArea doesn't dismiss on card clicks
+        // Eat clicks so background doesn't dismiss on card clicks
         MouseArea {
             anchors.fill: parent
             onClicked: {}
@@ -134,7 +165,6 @@ PanelWindow {
             }
             spacing: 6
 
-            // ── Title ──────────────────────────────────────────────────────
             Text {
                 Layout.fillWidth: true
                 text: "POWER"
@@ -144,84 +174,78 @@ PanelWindow {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Item {
-                Layout.preferredHeight: 4
-            }
+            Item { Layout.preferredHeight: 4 }
 
-            // ── Buttons ────────────────────────────────────────────────────
             PowerButton {
                 label: "Lock"
                 icon: "󰌾"
                 hoverColor: Colors.colCyan
+                selected: root.selectedIndex === 0
                 onActivated: root.runAndClose(procLock)
             }
             PowerButton {
                 label: "Suspend"
                 icon: "󰒲"
                 hoverColor: Colors.colBlue
+                selected: root.selectedIndex === 1
                 onActivated: root.runAndClose(procSuspend)
             }
             PowerButton {
                 label: "Hibernate"
                 icon: "󰋊"
                 hoverColor: Colors.colPurple
+                selected: root.selectedIndex === 2
                 onActivated: root.runAndClose(procHibernate)
             }
             PowerButton {
                 label: "Reboot"
                 icon: "󰜉"
                 hoverColor: Colors.colYellow
+                selected: root.selectedIndex === 3
                 onActivated: root.runAndClose(procReboot)
             }
             PowerButton {
                 label: "Shutdown"
                 icon: "󰐥"
                 hoverColor: Colors.colRed
+                selected: root.selectedIndex === 4
                 onActivated: root.runAndClose(procShutdown)
             }
 
-            Item {
-                Layout.preferredHeight: 2
-            }
+            Item { Layout.preferredHeight: 2 }
         }
     }
 
-    // ── Dismiss on Escape ───────────────────────────────────────────────────
-    //Keys.onEscapePressed: PowerMenuState.hide()
-
-    // ── Inner component: one menu row ───────────────────────────────────────
+    // ── Inner component: one menu row ────────────────────────────────────────
     component PowerButton: Rectangle {
         id: btn
         required property string label
         required property string icon
         required property color hoverColor
+        property bool selected: false
         signal activated
 
         Layout.fillWidth: true
         height: 44
         radius: 10
-        color: ma.containsMouse ? Qt.rgba(hoverColor.r, hoverColor.g, hoverColor.b, 0.15) : "transparent"
 
-        Behavior on color {
-            ColorAnimation {
-                duration: 140
-            }
-        }
+        color: (ma.containsMouse || selected)
+               ? Qt.rgba(hoverColor.r, hoverColor.g, hoverColor.b, 0.15)
+               : "transparent"
+
+        Behavior on color { ColorAnimation { duration: 140 } }
 
         Rectangle {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
             }
-            width: ma.containsMouse ? 3 : 0
+            width: (ma.containsMouse || btn.selected) ? 3 : 0
             height: 22
             radius: 2
             color: btn.hoverColor
             Behavior on width {
-                NumberAnimation {
-                    duration: 140
-                    easing.type: Easing.OutCubic
-                }
+                NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
             }
         }
 
@@ -235,13 +259,11 @@ PanelWindow {
 
             Text {
                 text: btn.icon
-                // ── Changed: Icon is now always blue ─────────────────────
                 color: Colors.colBlue
                 font.pixelSize: 18
                 verticalAlignment: Text.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
             }
-
             Text {
                 text: btn.label
                 color: Colors.colBlue
@@ -260,11 +282,6 @@ PanelWindow {
         }
 
         scale: ma.pressed ? 0.96 : 1.0
-        Behavior on scale {
-            NumberAnimation {
-                duration: 100
-                easing.type: Easing.OutCubic
-            }
-        }
+        Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
     }
 }

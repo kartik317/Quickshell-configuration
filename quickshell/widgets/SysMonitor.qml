@@ -25,7 +25,7 @@ PanelWindow {
     IpcHandler {
         target: "systemMonitor-widget"
         function toggle() {
-            SysMonitorState.toggle();
+            SysMonitorState.toggle()
         }
     }
 
