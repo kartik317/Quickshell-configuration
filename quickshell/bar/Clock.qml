@@ -5,7 +5,7 @@ Text {
     property string fontFamily
     property int fontSize
 
-    text: Qt.formatDateTime(new Date(), "ddd, MMM dd - HH:mm")
+    text: Qt.formatDateTime(new Date(), "HH:mm")
     color: Colors.colCyan
     font.pixelSize: fontSize
     font.family: fontFamily
@@ -15,6 +15,6 @@ Text {
         interval: 1000
         running: true
         repeat: true
-        onTriggered: parent.text = Qt.formatDateTime(new Date(), "ddd, MMM dd - HH:mm")
+        onTriggered: parent.text = Qt.formatDateTime(new Date(), "HH:mm")
     }
 }

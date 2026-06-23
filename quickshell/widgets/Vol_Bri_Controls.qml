@@ -59,12 +59,13 @@ PanelWindow {
         stdout: SplitParser {
             onRead: data => {
                 const parts = data.trim().split(",")
-                if (parts.length >= 3) {
-                    const mx  = parseInt(parts[1])
-                    const cur = parseInt(parts[2])
+                if (parts.length >= 5) {
+                    const cur = parseInt(parts[2])   // current_value
+                    const pct = parseInt(parts[3])   // percentage (parseInt stops at "%", so "33%" -> 33)
+                    const mx  = parseInt(parts[4])   // max_value
                     if (!isNaN(mx) && mx > 0) {
-                        root.maxBrightness   = mx
-                        root.brightnessValue = Math.round(cur / mx * 100)
+                        root.maxBrightness = mx
+                        root.brightnessValue = !isNaN(pct) ? pct : Math.round(cur / mx * 100)
                     }
                 }
             }

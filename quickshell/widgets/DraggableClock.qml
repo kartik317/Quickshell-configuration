@@ -15,7 +15,7 @@ Item {
     IpcHandler {
         target: "clock-widget"
         function toggle() {
-            ClockState.clockVisible = !ClockState.clockVisible
+            ClockState.toggle()
         }
     }
 

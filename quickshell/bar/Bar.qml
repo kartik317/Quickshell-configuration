@@ -82,7 +82,7 @@ PanelWindow {
 
             Separator {}
 
-            // Active window (fills remaining space)
+            // Active window
             Text {
                 text: SystemState.activeWindow
                 color: Colors.colPurple
@@ -93,57 +93,15 @@ PanelWindow {
                 maximumLineCount: 1
             }
 
-            // hover to show system monitor
-            MouseArea {
+            Item {
                 Layout.fillWidth: true
-                implicitHeight: parent.height
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onEntered: {
-                    SysMonitorState.visible = true;
-                    hideTimer.stop();
-                }
-                onExited: {
-                    hideTimer.start();
-                }
-
-                Text {
-                    anchors {
-                        fill: parent
-                        leftMargin: 8
-                    }
-                    //text: SystemState.activeWindow
-                    color: Colors.colPurple
-                    font.pixelSize: fontSize
-                    font.family: fontFamily
-                    font.bold: true
-                    verticalAlignment: Text.AlignVCenter
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                }
             }
 
-            Timer {
-                id: hideTimer
-                interval: 300
-                repeat: true
-                onTriggered: {
-                    // Only close if we're not hovering over the widget
-                    if (!SysMonitorState.hoveringWidget) {
-                        SysMonitorState.visible = false;
-                        stop();
-                    }
-                }
-            }
+            Network {}
 
-            Connections {
-                target: SysMonitorState
-                function onHoveringWidgetChanged() {
-                    if (!SysMonitorState.hoveringWidget && SysMonitorState.visible && !hideTimer.running) {
-                        hideTimer.start();
-                    }
-                }
-            }
+            Separator {}
+
+            Battery {}
 
             Separator {}
 
@@ -159,4 +117,3 @@ PanelWindow {
         }
     }
 }
-
