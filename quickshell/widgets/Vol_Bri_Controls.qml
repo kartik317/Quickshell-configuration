@@ -6,14 +6,13 @@ import Quickshell.Wayland
 import "../state"
 import "../theme"
 
-// Toggle: qs ipc call controlpanel toggle
 PanelWindow {
     id: root
 
     property var modelData
     screen: modelData
 
-    property bool open: false
+    property bool open: Vol_Bri_Controls_State.panelVisible
     property int  brightnessValue: 50
     property int  maxBrightness:   1000
 
@@ -21,7 +20,7 @@ PanelWindow {
     IpcHandler {
         target: "controlpanel"
         function toggle() {
-            root.open = !root.open
+            Vol_Bri_Controls_State.toggle();
         }
     }
 
@@ -50,24 +49,51 @@ PanelWindow {
         NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
     }
 
-    // ── Read brightness once at startup ────────────────────────────────────
-    // brightnessctl -m  →  "device,max,current,current%,"
+    // ── Detect backlight device once at startup ─────────────────────────────
     Process {
-        id: brightnessInit
-        command: ["brightnessctl", "-m"]
+        id: backlightDeviceProc
+        command: ["sh", "-c", "ls /sys/class/backlight | head -n1"]
         running: true
-        stdout: SplitParser {
-            onRead: data => {
-                const parts = data.trim().split(",")
-                if (parts.length >= 5) {
-                    const cur = parseInt(parts[2])   // current_value
-                    const pct = parseInt(parts[3])   // percentage (parseInt stops at "%", so "33%" -> 33)
-                    const mx  = parseInt(parts[4])   // max_value
-                    if (!isNaN(mx) && mx > 0) {
-                        root.maxBrightness = mx
-                        root.brightnessValue = !isNaN(pct) ? pct : Math.round(cur / mx * 100)
-                    }
+        stdout: StdioCollector {
+            id: backlightDevice
+            onStreamFinished: {
+                // once we know the device name, read max brightness then
+                // kick off the live watcher below
+                maxBrightnessProc.running = true
+            }
+        }
+    }
+
+    // ── Read max brightness once (doesn't change at runtime) ───────────────
+    Process {
+        id: maxBrightnessProc
+        running: false
+        command: ["cat", "/sys/class/backlight/" + backlightDevice.text.trim() + "/max_brightness"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const mx = parseInt(text.trim())
+                if (!isNaN(mx) && mx > 0) {
+                    root.maxBrightness = mx
                 }
+                // now that we have a max, do the first read + start watching
+                brightnessWatcher.reload()
+            }
+        }
+    }
+
+    // ── Live brightness watcher — updates whenever F6/F7 (or anything else)
+    //     changes brightness via brightnessctl, sysfs, etc. ─────────────────
+    FileView {
+        id: brightnessWatcher
+        path: backlightDevice.text.trim().length > 0
+              ? "/sys/class/backlight/" + backlightDevice.text.trim() + "/brightness"
+              : ""
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: {
+            const cur = parseInt(text().trim())
+            if (!isNaN(cur) && root.maxBrightness > 0) {
+                root.brightnessValue = Math.round(cur / root.maxBrightness * 100)
             }
         }
     }
@@ -155,8 +181,10 @@ PanelWindow {
                 onSlide:   val => root.setBrightness(val)
                 onIconTap: {}
             }
-        }
+        } 
     }
+
+    
 
     // ═══════════════════════════════════════════════════════════════════════
     //  VSliderBlock  —  fully custom, no Qt Quick Controls
@@ -273,3 +301,4 @@ PanelWindow {
         }
     }
 }
+
