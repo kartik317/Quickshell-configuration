@@ -1,82 +1,130 @@
 # Quickshell Configuration
 
-A modern, customizable shell configuration for Quickshell with a feature-rich status bar and system monitoring.
+A modern Quickshell setup for Hyprland-style desktop workflows with a polished top bar, live system monitoring, quick controls, and a compact app launcher.
 
-## Project Structure
+## What this config includes
 
-```
+- A custom top bar with workspace, layout, active window, network, battery, and clock information
+- A draggable clock overlay for quick access to the clock panel
+- A system monitor popup with CPU, RAM, disk, temperature, and battery gauges
+- A slide-in volume and brightness control panel
+- A PipeWire-driven volume OSD
+- A power menu with lock, suspend, hibernate, reboot, and shutdown actions
+- An app launcher with recent-app tracking and keyboard navigation
+- A lightweight voice assistant panel for wave feedback
+
+## Project structure
+
+```text
 quickshell/
-├── shell.qml                 # Main shell configuration
+├── shell.qml                  # Main shell entry point
 ├── bar/
-│   ├── Bar.qml              # Main status bar component
-│   ├── Clock.qml            # Time/date display widget
-│   ├── Separator.qml        # Visual separator component
-│   ├── SysStats.qml         # System statistics display
-│   └── Workspaces.qml       # Workspace switcher
-├── icons/                   # Icon assets
+│   ├── Bar.qml                # Main top bar layout
+│   ├── Battery.qml            # Battery status widget
+│   ├── Clock.qml              # Clock display component
+│   ├── Network.qml            # Network status widget
+│   ├── Separator.qml          # Visual separator
+│   └── Workspaces.qml         # Workspace switcher
+├── icons/                     # Static icon assets
 ├── state/
-│   └── SystemState.qml      # System state management
-└── theme/
-    └── Colors.qml           # Color scheme and theming
+│   ├── AppLauncherState.qml   # App launcher visibility + recent apps state
+│   ├── ClockState.qml         # Clock overlay visibility state
+│   ├── PowerMenuState.qml     # Power menu visibility state
+│   ├── SysMonitorState.qml    # System monitor popup state
+│   └── SystemState.qml        # Live system metrics and helpers
+├── theme/
+│   └── Colors.qml             # Shared color palette
+├── voice_assistant/
+│   ├── NovaPanel.qml          # Voice assistant widget panel
+│   ├── NovaState.qml          # Voice assistant state
+│   └── NovaWave.qml           # Wave visualization component
+└── widgets/
+    ├── AppLauncher.qml        # Full-screen app launcher UI
+    ├── Clock.qml              # Draggable clock overlay widget
+    ├── DraggableClock.qml     # Clock drag surface
+    ├── GaugeRing.qml          # Circular gauge component
+    ├── PowerMenu.qml          # Power actions menu
+    ├── SysMonitor.qml         # System monitor popup UI
+    ├── Vol_Bri_Controls.qml   # Volume/brightness control panel
+    └── VolumeOSD.qml          # On-screen volume display
 ```
 
-## Features
+## Core components
 
-- **Status Bar** - Customizable top-level bar with multiple widgets
-- **Clock Widget** - Real-time clock and date display
-- **System Statistics** - Monitor CPU, memory, and system metrics
-- **Workspace Switcher** - Quick workspace navigation
-- **Theme Support** - Centralized color scheme management
-- **Modular Design** - Clean separation of concerns for easy customization
+### Bar and shell
+- [quickshell/shell.qml](quickshell/shell.qml) wires together the bar, overlays, widgets, and panels for each screen.
+- [quickshell/bar/Bar.qml](quickshell/bar/Bar.qml) defines the top bar layout and places the main widgets.
 
-## Components
+### State and monitoring
+- [quickshell/state/SystemState.qml](quickshell/state/SystemState.qml) collects live system information such as CPU usage, memory, disk usage, volume, battery, active window, and layout state.
+- [quickshell/widgets/SysMonitor.qml](quickshell/widgets/SysMonitor.qml) renders a detailed popup for system health and power info.
 
-### Bar
-The main status bar interface with integrated widgets:
-- **Bar.qml** - Primary bar container and layout manager
-- **Clock.qml** - Time display with formatting options
-- **SysStats.qml** - Real-time system monitoring
-- **Workspaces.qml** - Active workspace indicator
-- **Separator.qml** - Visual spacing between widgets
+### Controls and overlays
+- [quickshell/widgets/Vol_Bri_Controls.qml](quickshell/widgets/Vol_Bri_Controls.qml) provides the slide-out volume and brightness UI.
+- [quickshell/widgets/VolumeOSD.qml](quickshell/widgets/VolumeOSD.qml) shows transient audio feedback when the volume changes.
+- [quickshell/widgets/PowerMenu.qml](quickshell/widgets/PowerMenu.qml) offers quick power actions.
+- [quickshell/widgets/AppLauncher.qml](quickshell/widgets/AppLauncher.qml) provides a searchable app picker with recent app support.
 
-### State Management
-- **SystemState.qml** - Centralized state for system information and updates
+### Visual theme
+- [quickshell/theme/Colors.qml](quickshell/theme/Colors.qml) centralizes the color palette used across the shell.
 
-### Theme
-- **Colors.qml** - Global color palette and theme definitions
+### How to use
+every widget has ipc handler to use them run:
+    
+`qs ipc call applauncher toggle`
 
-## Getting Started
+`qs ipc call clock-widget toggle`
+    
+`qs ipc call controlpanel toggle`
 
-1. Ensure Quickshell is installed on your system
-2. Clone this repository or copy to your Quickshell configuration directory
-3. Configure `shell.qml` with your preferred settings
-4. Customize `theme/Colors.qml` to match your color scheme
-5. Restart Quickshell to apply changes
+`qs ipc call systemMonitor-widget toggle`
+    
+`qs ipc call powermenu toggle`
 
-## Customization
+Bind keys in hyprland
 
-### Changing Colors
-Edit [theme/Colors.qml](theme/Colors.qml) to modify the color scheme across all components.
+`hl.bind(mainMod .. " + ALT + C", hl.dsp.exec_cmd("qs ipc call clock-widget toggle"))`
 
-### Adding New Widgets
-1. Create a new `.qml` file in the `bar/` directory
-2. Import it in [bar/Bar.qml](bar/Bar.qml)
-3. Add it to the bar layout
+`hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("qs ipc call controlpanel toggle"))`
 
-### Modifying Bar Layout
-Edit [bar/Bar.qml](bar/Bar.qml) to rearrange, add, or remove widgets.
+`hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("qs ipc call systemMonitor-widget toggle"))`
 
-## Configuration Files
+`hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("qs ipc call powermenu toggle"))`
 
-- **shell.qml** - Main entry point and shell configuration
-- **bar/Bar.qml** - Bar layout and widget composition
-- **theme/Colors.qml** - Global color definitions
-- **state/SystemState.qml** - Application state management
+---
 
 ## Requirements
 
-- Quickshell (latest version recommended)
-- QML runtime environment
+This setup expects a working Quickshell environment with the following tools available:
+
+- Quickshell
+- Hyprland-compatible environment
+- PipeWire + WirePlumber for volume control via `wpctl`
+- `brightnessctl` for brightness changes
+- `jq` for parsing Hyprland window data
+- A Nerd Font such as JetBrainsMono Nerd Font
+
+## Getting started
+
+1. Make sure Quickshell is installed and running.
+2. Copy or link this repository into your Quickshell configuration directory.
+3. Adjust any paths or commands in the QML files if your system uses different tool locations.
+4. Restart Quickshell to load the updated configuration.
+
+## Customization tips
+
+- Edit [quickshell/theme/Colors.qml](quickshell/theme/Colors.qml) to change the shell palette globally.
+- Modify [quickshell/bar/Bar.qml](quickshell/bar/Bar.qml) to reorder or remove bar widgets.
+- Tune the behavior of overlays and panels in the files under [quickshell/widgets](quickshell/widgets).
+- Update the state logic in [quickshell/state/SystemState.qml](quickshell/state/SystemState.qml) if you want different system metrics or polling behavior.
+
+## Notes
+
+This configuration is actively customized and may depend on specific desktop tools and system paths. If a feature does not appear to work, the first things to check are:
+
+- whether the required CLI tools are installed,
+- whether the correct audio backend is active,
+- and whether Hyprland/Quickshell is running with the expected permissions.
 
 ## License
 
