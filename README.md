@@ -11,7 +11,7 @@ A modern Quickshell setup for Hyprland-style desktop workflows with a polished t
 - A PipeWire-driven volume OSD
 - A power menu with lock, suspend, hibernate, reboot, and shutdown actions
 - An app launcher with recent-app tracking and keyboard navigation
-- A lightweight voice assistant panel for wave feedback
+- A lightweight voice assistant panel for wave feedback (optional)
 
 ## Project structure
 
