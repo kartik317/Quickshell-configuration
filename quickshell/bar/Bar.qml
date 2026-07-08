@@ -5,6 +5,7 @@ import Quickshell.Wayland
 import Quickshell.Io
 import "../theme"
 import "../state"
+import "../voice_assistant"
 
 PanelWindow {
     id: root
@@ -91,6 +92,8 @@ PanelWindow {
                 font.bold: true
                 elide: Text.ElideRight
                 maximumLineCount: 1
+                Layout.maximumWidth: 800
+                Layout.preferredWidth: implicitWidth < maximumWidth ? implicitWidth : maximumWidth
             }
 
             Item {
