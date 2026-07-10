@@ -1,20 +1,21 @@
 import QtQuick
+import Quickshell
 import "../theme"
 
 Text {
-    property string fontFamily
-    property int fontSize
+    text: Qt.formatDateTime(clock.date, "HH:mm")
+    color: Colors.colCyan 
 
-    text: Qt.formatDateTime(new Date(), "HH:mm")
-    color: Colors.colCyan
-    font.pixelSize: fontSize
-    font.family: fontFamily
-    font.bold: true
-
-    Timer {
-        interval: 1000
-        running: true
-        repeat: true
-        onTriggered: parent.text = Qt.formatDateTime(new Date(), "HH:mm")
+    font {
+	family: "SF Mono"
+	letterSpacing: -1
+	pixelSize: 15
+	weight: 600
     }
+
+    SystemClock {
+	id: clock
+	precision: SystemClock.Minutes
+    }
+
 }

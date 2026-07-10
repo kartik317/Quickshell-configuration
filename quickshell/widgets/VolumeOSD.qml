@@ -94,7 +94,7 @@ PanelWindow {
     // ── Slide-up animation ─────────────────────────────────────────────────
     property real slideOffset: osdVisible ? 0 : 80
     Behavior on slideOffset {
-        NumberAnimation { duration: 320; easing.type: Easing.OutExpo }
+        NumberAnimation { duration: 500; easing.type: Easing.OutCubic }
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -113,7 +113,7 @@ PanelWindow {
         Behavior on opacity { NumberAnimation { duration: 220 } }
 
         radius: 18
-        color:  Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.93)
+        color:  Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.85)
 
         Rectangle {
             anchors.fill: parent; z: 1; radius: parent.radius

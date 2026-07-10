@@ -21,7 +21,7 @@ PanelWindow {
         right: true
     }
     implicitHeight: 30
-    color: Qt.alpha(Colors.colBg, 0.85)
+    color: "transparent"
 
     // Font config — adjust here only
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
@@ -83,18 +83,18 @@ PanelWindow {
 
             Separator {}
 
-            // Active window
-            Text {
-                text: SystemState.activeWindow
-                color: Colors.colPurple
-                font.pixelSize: fontSize
-                font.family: fontFamily
-                font.bold: true
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                Layout.maximumWidth: 800
-                Layout.preferredWidth: implicitWidth < maximumWidth ? implicitWidth : maximumWidth
-            }
+	    // Active window
+	    Text {
+		text: SystemState.activeWindow
+		color: Colors.colPurple
+		font.pixelSize: fontSize
+		font.family: fontFamily
+		font.bold: true
+		elide: Text.ElideRight
+		maximumLineCount: 1
+		Layout.maximumWidth: 800
+		Layout.preferredWidth: implicitWidth < Layout.maximumWidth ? implicitWidth : Layout.maximumWidth
+	    }
 
             Item {
                 Layout.fillWidth: true
@@ -108,15 +108,11 @@ PanelWindow {
 
             Separator {}
 
-            Clock {
-                fontFamily: root.fontFamily
-                fontSize: root.fontSize
-                Layout.rightMargin: 8
-            }
+            Clock {}
 
             Item {
                 width: 8
             }
         }
-    }
+      } 
 }

@@ -117,6 +117,7 @@ This setup expects a working Quickshell environment with the following tools ava
 - Modify [quickshell/bar/Bar.qml](quickshell/bar/Bar.qml) to reorder or remove bar widgets.
 - Tune the behavior of overlays and panels in the files under [quickshell/widgets](quickshell/widgets).
 - Update the state logic in [quickshell/state/SystemState.qml](quickshell/state/SystemState.qml) if you want different system metrics or polling behavior.
+- update file path in [quickshell/state/WallpaperState.qml](quickshell/state/WallpaperState.qml) same in [quickshell/state/LiveWallpaperState.qml](quickshell/state/LiveWallpaperState.qml) update both `wallpaperDir` and `thumdir` in Live wallpaper  
 
 ## Notes
 

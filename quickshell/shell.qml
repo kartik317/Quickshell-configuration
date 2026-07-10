@@ -5,7 +5,9 @@ import QtQuick
 import "./state"
 import "./bar"
 import Quickshell.Io
-import "widgets"
+import "./widgets"
+import "./wallpaper_clock"
+import "./voice_assistant"
 
 ShellRoot {
     // ── Bar ────────────────────────────────────────────────────────────────
@@ -77,5 +79,11 @@ ShellRoot {
             screen: modelData
         }
     }
+
+    NovaPanel {}
+
+    WallpaperSwitcher {}
+
+    LiveWallpaperSwitcher {}
 }
 

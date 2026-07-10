@@ -18,7 +18,7 @@ PanelWindow {
 
     // ── IPC ────────────────────────────────────────────────────────────────
     IpcHandler {
-        target: "controlpanel"
+        target: "vol-bri-controls"
         function toggle() {
             Vol_Bri_Controls_State.toggle();
         }
@@ -46,7 +46,7 @@ PanelWindow {
     // ── Slide ──────────────────────────────────────────────────────────────
     property real slideOffset: open ? 0 : panelCard.width
     Behavior on slideOffset {
-        NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
+        NumberAnimation { duration: 500; easing.type: Easing.OutCubic }
     }
 
     // ── Detect backlight device once at startup ─────────────────────────────
@@ -119,16 +119,13 @@ PanelWindow {
         // slideOffset pushes it off to the right when closed
         x: root.slideOffset
 
-        color:   Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.93)
+        color:   Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.85)
 
         // Left corners rounded, right corners flush with screen edge
         topLeftRadius:     16
         bottomLeftRadius:  16
         topRightRadius:    0
         bottomRightRadius: 0
-
-        opacity: root.open ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.InOutSine } }
 
         // Border — only on left + top + bottom, not the docked right edge
         Rectangle {

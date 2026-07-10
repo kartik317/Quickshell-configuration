@@ -46,27 +46,31 @@ PanelWindow {
 
     // ── Layer / geometry ─────────────────────────────────────────────────────
     anchors {
-        top: true
-        bottom: true
-        left: true
+	top: true
+	bottom: true
+	left: true
+	right: true
     }
 
-    implicitWidth: 208
-
     mask: Region {
-        item: powerCard
+	item: PowerMenuState.powerVisible ? maskCover : null
+    }
+
+    Item {
+	id: maskCover
+	anchors.fill: parent
     }
 
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+    WlrLayershell.keyboardFocus: PowerMenuState.powerVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     WlrLayershell.namespace: "qs-powermenu-noanim"
 
     // ── Slide offset ─────────────────────────────────────────────────────────
     property real slideOffset: PowerMenuState.powerVisible ? 0 : powerCard.width + 8
     Behavior on slideOffset {
-        NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
+        NumberAnimation { duration: 500; easing.type: Easing.OutCubic }
     }
 
     // ── Process runners ──────────────────────────────────────────────────────
@@ -96,13 +100,19 @@ PanelWindow {
         proc.running = true;
     }
 
+    MouseArea {
+	anchors.fill: parent
+	enabled: PowerMenuState.powerVisible
+	onClicked: PowerMenuState.hide()
+    }
+
     // ── Menu card ────────────────────────────────────────────────────────────
     Rectangle {
         id: powerCard
 
         focus: true
 
-        // ── Key handling (must be on an Item, not PanelWindow) ───────────────
+        // ── Key handling ──
         Keys.onPressed: function(event) {
             if (!PowerMenuState.powerVisible) return;
             if (event.key === Qt.Key_Up) {
@@ -130,10 +140,7 @@ PanelWindow {
         topRightRadius: 18
         bottomRightRadius: 18
 
-        color: Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.95)
-
-        opacity: PowerMenuState.powerVisible ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.InOutSine } }
+        color: Qt.rgba(Colors.colBg.r, Colors.colBg.g, Colors.colBg.b, 0.85) 
 
         // Border overlay
         Rectangle {

@@ -10,14 +10,17 @@ import Quickshell.Wayland
 PanelWindow {
     id: root
 
-    // Tucks 1px under the bar to hide the top border edge
     readonly property int panX: screen ? (screen.width - width) / 2 : (1920 - 400) / 2
     readonly property int panY: 29
     readonly property string monoFont: "JetBrainsMono Nerd Font"
 
-    property bool _closing: false
+    // ── Slide offset ───────────────────
+    property real slideOffset: SysMonitorState.visible ? 0 : (implicitHeight + 8)
+    Behavior on slideOffset {
+        NumberAnimation { duration: 500; easing.type: Easing.OutCubic }
+    }
 
-    visible: SysMonitorState.visible || _closing
+    visible: true
     implicitWidth: 400
     implicitHeight: 320
     color: "transparent"
@@ -44,40 +47,30 @@ PanelWindow {
         left: root.panX
     }
 
-    Connections {
-        target: SysMonitorState
-        function onVisibleChanged() {
-            if (!SysMonitorState.visible) {
-                root._closing = true;
-                exitDelay.restart();
-            }
-        }
-    }
-
-    Timer {
-        id: exitDelay
-        interval: 220
-        onTriggered: root._closing = false
+    mask: Region {
+        item: SysMonitorState.visible ? panel : null
     }
 
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        enabled: SysMonitorState.visible
         onEntered: SysMonitorState.hoveringWidget = true
         onExited: SysMonitorState.hoveringWidget = false
     }
 
     Rectangle {
-        id: panel
+	id: panel
 
-        anchors.fill: parent
-        color: Qt.alpha(Colors.colBg, 0.96)
-        radius: 12
-        topLeftRadius: 0
-        topRightRadius: 0
-        opacity: SysMonitorState.visible ? 1 : 0
-        scale: SysMonitorState.visible ? 1 : 0.97
-        transformOrigin: Item.Top
+	anchors.fill: parent
+	color: Qt.alpha(Colors.colBg, 0.85)
+	radius: 12
+	topLeftRadius: 0
+	topRightRadius: 0
+
+	transform: Translate {
+	    y: -root.slideOffset
+	}
 
         Column {
             anchors.fill: parent
@@ -85,7 +78,6 @@ PanelWindow {
             topPadding: 16
             bottomPadding: 16
 
-            // ── Gauge rings: CPU / RAM / Disk ──────────────
             RowLayout {
                 width: parent.width
                 height: 150
@@ -126,13 +118,11 @@ PanelWindow {
                 }
             }
 
-            // ── Gauge rings: CPU Temp / GPU Temp / Battery ──
             RowLayout {
                 width: parent.width
                 height: 150
                 spacing: 0
 
-                // CPU Temp
                 Item {
                     Layout.fillWidth: true
                     height: 150
@@ -160,7 +150,6 @@ PanelWindow {
                     }
                 }
 
-                // GPU Temp
                 Item {
                     Layout.fillWidth: true
                     height: 150
@@ -188,7 +177,6 @@ PanelWindow {
                     }
                 }
 
-                // Battery
                 Item {
                     Layout.fillWidth: true
                     height: 150
@@ -222,31 +210,6 @@ PanelWindow {
                         }
                     }
                 }
-            }
-        }
-
-        transform: Translate {
-            y: SysMonitorState.visible ? 0 : -10
-
-            Behavior on y {
-                NumberAnimation {
-                    duration: 220
-                    easing.type: Easing.OutCubic
-                }
-            }
-        }
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 220
-                easing.type: Easing.OutCubic
-            }
-        }
-
-        Behavior on scale {
-            NumberAnimation {
-                duration: 220
-                easing.type: Easing.OutCubic
             }
         }
     }
