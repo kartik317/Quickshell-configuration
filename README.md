@@ -10,6 +10,8 @@ A modern [Quickshell](https://quickshell.outfoxxed.me/) setup for Hyprland-style
   Your browser does not support the video tag.
 </video>
 
+![video](out.mp4)
+
 [video explaination](https://youtu.be/P4uzfNuSL5E)
 
 ---
