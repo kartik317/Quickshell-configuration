@@ -5,6 +5,12 @@ A modern [Quickshell](https://quickshell.outfoxxed.me/) setup for Hyprland-style
 ![status](https://img.shields.io/badge/status-actively--developed-blue)
 ![shell](https://img.shields.io/badge/compositor-Hyprland-informational)
 
+
+
+https://github.com/user-attachments/assets/7263ef3d-22f9-47f9-aa4e-f966d1e7af2f
+
+
+
 [video explaination](https://youtu.be/P4uzfNuSL5E)
 
 ---
