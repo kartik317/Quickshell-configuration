@@ -5,19 +5,32 @@ A modern [Quickshell](https://quickshell.outfoxxed.me/) setup for Hyprland-style
 ![status](https://img.shields.io/badge/status-actively--developed-blue)
 ![shell](https://img.shields.io/badge/compositor-Hyprland-informational)
 
+<video width="320" height="240" controls>
+  <source src="out.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+[video explaination](https://youtu.be/P4uzfNuSL5E)
+
 ---
 
 ## Table of Contents
 
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Core Components](#core-components)
-- [Requirements](#requirements)
-- [Getting Started](#getting-started)
-- [IPC Commands & Keybinds](#ipc-commands--keybinds)
-- [Customization Tips](#customization-tips)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
+- [Quickshell Configuration](#quickshell-configuration)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Project Structure](#project-structure)
+  - [Core Components](#core-components)
+    - [Bar and Shell](#bar-and-shell)
+    - [State and Monitoring](#state-and-monitoring)
+    - [Controls and Overlays](#controls-and-overlays)
+    - [Visual Theme](#visual-theme)
+  - [Requirements](#requirements)
+  - [Getting Started](#getting-started)
+  - [IPC Commands \& Keybinds](#ipc-commands--keybinds)
+  - [Customization Tips](#customization-tips)
+  - [Troubleshooting](#troubleshooting)
+  - [License](#license)
 
 ---
 
