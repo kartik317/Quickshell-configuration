@@ -5,13 +5,6 @@ A modern [Quickshell](https://quickshell.outfoxxed.me/) setup for Hyprland-style
 ![status](https://img.shields.io/badge/status-actively--developed-blue)
 ![shell](https://img.shields.io/badge/compositor-Hyprland-informational)
 
-<video width="320" height="240" controls>
-  <source src="out.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-![video](out.mp4)
-
 [video explaination](https://youtu.be/P4uzfNuSL5E)
 
 ---
