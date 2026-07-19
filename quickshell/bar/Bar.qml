@@ -5,7 +5,6 @@ import Quickshell.Wayland
 import Quickshell.Io
 import "../theme"
 import "../state"
-import "../voice_assistant"
 
 PanelWindow {
     id: root
@@ -83,22 +82,30 @@ PanelWindow {
 
             Separator {}
 
-	    // Active window
-	    Text {
-		text: SystemState.activeWindow
-		color: Colors.colPurple
-		font.pixelSize: fontSize
-		font.family: fontFamily
-		font.bold: true
-		elide: Text.ElideRight
-		maximumLineCount: 1
-		Layout.maximumWidth: 800
-		Layout.preferredWidth: implicitWidth < Layout.maximumWidth ? implicitWidth : Layout.maximumWidth
-	    }
+            // Active window
+            Text {
+                text: SystemState.activeWindow
+                color: Colors.colPurple
+                font.pixelSize: fontSize
+                font.family: fontFamily
+                font.bold: true
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                Layout.maximumWidth: 800
+                Layout.preferredWidth: implicitWidth < Layout.maximumWidth ? implicitWidth : Layout.maximumWidth
+            }
 
             Item {
                 Layout.fillWidth: true
+	    }
+
+            Tray {}
+
+            Item {
+                width: 8
             }
+
+            Separator {}
 
             Network {}
 
@@ -114,5 +121,5 @@ PanelWindow {
                 width: 8
             }
         }
-      } 
+    }
 }

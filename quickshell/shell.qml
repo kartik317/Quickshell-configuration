@@ -78,7 +78,7 @@ ShellRoot {
             property var modelData
             screen: modelData
         }
-    }
+    } 
 
     NovaPanel {}
 
