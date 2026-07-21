@@ -5,6 +5,7 @@ import Quickshell.Wayland
 import Quickshell.Io
 import "../theme"
 import "../state"
+import "../widgets"
 
 PanelWindow {
     id: root
@@ -98,6 +99,8 @@ PanelWindow {
             Item {
                 Layout.fillWidth: true
 	    }
+
+	    MediaControls {}
 
             Tray {}
 
