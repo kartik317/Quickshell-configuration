@@ -16,7 +16,7 @@ Item {
 
         // Album art
         Rectangle {
-            width: 26; height: 26
+            width: 30; height: 26
             radius: 6
             color: Theme.Colors.colBlack
             clip: true
@@ -58,7 +58,7 @@ Item {
         Text {
             text: "󰒮"
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 15
+            font.pixelSize: 20
             color: State.MediaState.canGoPrevious ? Theme.Colors.colFg : Theme.Colors.colBrightBlack
             MouseArea {
                 anchors.fill: parent
@@ -72,7 +72,7 @@ Item {
         Text {
             text: State.MediaState.isPlaying ? "󰏤" : "󰐊"
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 17
+            font.pixelSize: 20
             color: Theme.Colors.colCyan
             MouseArea {
                 anchors.fill: parent
@@ -86,7 +86,7 @@ Item {
         Text {
             text: "󰒭"
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 15
+            font.pixelSize: 20
             color: State.MediaState.canGoNext ? Theme.Colors.colFg : Theme.Colors.colBrightBlack
             MouseArea {
                 anchors.fill: parent
@@ -100,7 +100,7 @@ Item {
         Text {
             text: "󰒝"
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 13
+            font.pixelSize: 17
             color: State.MediaState.shuffleOn ? Theme.Colors.colCyan : Theme.Colors.colBrightBlack
             MouseArea {
                 anchors.fill: parent
@@ -110,31 +110,38 @@ Item {
             }
         }
 
-        // Repeat (none / track / playlist)
-        Text {
-            id: repeatIcon
-            text: "󰑖"
-            font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 13
-            color: State.MediaState.loopStatus !== MprisLoopState.None
-                   ? Theme.Colors.colCyan : Theme.Colors.colBrightBlack
+	// Repeat (None / Playlist / Track)
+	Text {
+	    id: repeatIcon
 
-            // small "1" badge overlay when looping a single track
-            Text {
-                visible: State.MediaState.loopStatus === MprisLoopState.Track
-                text: "1"
-                font.pixelSize: 7
-                color: Theme.Colors.colBg
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-            }
+	    // Choose icon based on loop state: Track gets repeat-one (󰑘), others get repeat (󰑖)
+	    text: State.MediaState.loopStatus === MprisLoopState.Track ? "󰑘" : "󰑖"
+	    font.family: "JetBrainsMono Nerd Font"
+	    font.pixelSize: 17
 
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -4
-                cursorShape: Qt.PointingHandCursor
-                onClicked: function(event) { State.MediaState.cycleLoop(); }
-            }
-        }
+	    // Dimmed when turned off, cyan when active (Track or Playlist)
+	    color: State.MediaState.loopStatus !== MprisLoopState.None
+	    ? Theme.Colors.colCyan : Theme.Colors.colBrightBlack
+
+	    // Optional subtle badge indicator if you want an extra visual cue
+	    Text {
+		visible: State.MediaState.loopStatus === MprisLoopState.Track
+		text: "1"
+		font.pixelSize: 8
+		font.bold: true
+		color: Theme.Colors.colCyan
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		anchors.rightMargin: -3
+		anchors.bottomMargin: -2
+	    }
+
+	    MouseArea {
+		anchors.fill: parent
+		anchors.margins: -4
+		cursorShape: Qt.PointingHandCursor
+		onClicked: function(event) { State.MediaState.cycleLoop(); }
+	    }
+	}
     }
 }

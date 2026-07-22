@@ -29,7 +29,8 @@ Singleton {
     readonly property bool canGoNext: activePlayer?.canGoNext ?? false
     readonly property bool canGoPrevious: activePlayer?.canGoPrevious ?? false
     readonly property bool shuffleOn: activePlayer?.shuffle ?? false
-    readonly property int loopStatus: activePlayer?.loopStatus ?? MprisLoopState.None
+    
+    readonly property int loopStatus: activePlayer?.loopState ?? MprisLoopState.None
 
     function togglePlaying() {
         if (activePlayer) activePlayer.togglePlaying();
@@ -49,12 +50,14 @@ Singleton {
 
     function cycleLoop() {
         if (!activePlayer) return;
-        if (activePlayer.loopStatus === MprisLoopState.None)
-            activePlayer.loopStatus = MprisLoopState.Track;
-        else if (activePlayer.loopStatus === MprisLoopState.Track)
-            activePlayer.loopStatus = MprisLoopState.Playlist;
-        else
-            activePlayer.loopStatus = MprisLoopState.None;
+
+        if (activePlayer.loopState === MprisLoopState.None) {
+            activePlayer.loopState = MprisLoopState.Track;
+        } else if (activePlayer.loopState === MprisLoopState.Track) {
+            activePlayer.loopState = MprisLoopState.Playlist;
+        } else {
+            activePlayer.loopState = MprisLoopState.None;
+        }
     }
 
     // Lets you drive this from hyprland keybinds via `qs ipc call`
