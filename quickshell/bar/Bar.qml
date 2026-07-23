@@ -20,108 +20,120 @@ PanelWindow {
         left: true
         right: true
     }
-    implicitHeight: 30
+    implicitHeight: 45 
     color: "transparent"
 
-    // Font config — adjust here only
+    // Config options
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
     readonly property int fontSize: 14
+    readonly property real pillRadius: 12
+    readonly property color pillBg: Qt.alpha(Colors.colBg, 0.85)
 
-    Rectangle {
+    RowLayout {
         anchors.fill: parent
-        color: Qt.alpha(Colors.colBg, 0.85)
+        anchors.margins: 4
+        spacing: 8
 
-        RowLayout {
-            anchors.fill: parent
-            spacing: 0
+        // Left Section: Logo, Workspaces, Layout
+        Rectangle {
+            Layout.fillHeight: true
+            color: root.pillBg
+            radius: root.pillRadius
+            implicitWidth: leftRow.implicitWidth + 16
 
-            Item {
-                width: 8
-            }
+            RowLayout {
+                id: leftRow
+                anchors.centerIn: parent
+                spacing: 8
 
-            // Logo
-            Rectangle {
-                Layout.preferredWidth: 24
-                Layout.preferredHeight: 24
-                color: "transparent"
-                Image {
-                    anchors.fill: parent
-                    source: "../icons/arch.png"
-                    fillMode: Image.PreserveAspectFit
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-
-                    onClicked: {
-                        appLauncherProcess.running = true;
+                // Logo
+                Rectangle {
+                    Layout.preferredWidth: 20
+                    Layout.preferredHeight: 20
+                    color: "transparent"
+                    
+                    Image {
+                        anchors.fill: parent
+                        source: "../icons/arch.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                    
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            appLauncherProcess.running = true;
+                        }
                     }
                 }
+
+                Separator {}
+
+                // Workspaces
+                Workspaces {
+                    fontFamily: root.fontFamily
+                    fontSize: root.fontSize
+                } 
             }
+	}	
+	
+        // Center Spacer (Pushes left and right sections apart)
+        Item {
+            Layout.fillWidth: true
+        }
 
-            Item {
-                width: 8
+        // Center Section: Media Controls
+        Rectangle {
+            Layout.fillHeight: true
+            color: root.pillBg
+            radius: root.pillRadius
+            implicitWidth: mediaRow.implicitWidth
+
+            RowLayout {
+                id: mediaRow
+                anchors.centerIn: parent
+                MediaControls {}
             }
-
-            // Workspaces
-            Workspaces {
-                fontFamily: root.fontFamily
-                fontSize: root.fontSize
-            }
-
-            Separator {}
-
-            // Layout mode
-            Text {
-                text: SystemState.currentLayout
-                color: Colors.colFg
-                font.pixelSize: fontSize
-                font.family: fontFamily
-                font.bold: true
-                Layout.rightMargin: 5
-            }
-
-            Separator {}
-
-            // Active window
-            Text {
-                text: SystemState.activeWindow
-                color: Colors.colPurple
-                font.pixelSize: fontSize
-                font.family: fontFamily
-                font.bold: true
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                Layout.maximumWidth: 800
-                Layout.preferredWidth: implicitWidth < Layout.maximumWidth ? implicitWidth : Layout.maximumWidth
-            }
-
-            Item {
-                Layout.fillWidth: true
+        } 
+	
+	// System info
+	Rectangle {
+	    Layout.fillHeight: true
+	    Layout.preferredWidth: 320
+	    color: root.pillBg
+	    radius: root.pillRadius
+	    RowLayout {
+		id: sysInfoRow
+		anchors.centerIn: parent
+		spacing: 8
+		SysInfo {
+		    fontFamily: root.fontFamily
+		    fontSize: root.fontSize
+		}
 	    }
+	} 
 
-	    MediaControls {}
+        // Network, Battery & Clock Pill
+        Rectangle {
+            Layout.fillHeight: true
+            implicitWidth: statusRow.implicitWidth + 24
+            color: root.pillBg
+            radius: root.pillRadius
 
-            Tray {}
+            RowLayout {
+                id: statusRow
+                anchors.centerIn: parent
+                spacing: 8
 
-            Item {
-                width: 8
-            }
+                Network {}
 
-            Separator {}
+                Separator {}
 
-            Network {}
+                Battery {}
 
-            Separator {}
+                Separator {}
 
-            Battery {}
-
-            Separator {}
-
-            Clock {}
-
-            Item {
-                width: 8
+                Clock {}
             }
         }
     }

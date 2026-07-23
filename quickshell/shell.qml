@@ -38,15 +38,7 @@ ShellRoot {
             }
         }
     }
-    // ── System monitor ─────────────────────────────────────────────────────
-    Variants {
-        model: Quickshell.screens
-        SysMonitor {
-            id: sysMonitor
-            property var modelData
-            screen: modelData
-        }
-    }
+    
     // ── Control panel (manual toggle, slides from right) ───────────────────
     Variants {
         model: Quickshell.screens

@@ -23,7 +23,7 @@ RowLayout {
 
     Text {
         text: root.icon
-        color: root.charging ? Colors.colWhite : Colors.colPurple
+        color: root.charging ? Colors.colPurple : Colors.colWhite
 
         font {
             family: "JetBrainsMono Nerd Font"
@@ -33,7 +33,7 @@ RowLayout {
 
     Text {
         text: root.level + "%  "
-        color: root.charging ? Colors.colWhite : Colors.colPurple
+        color: root.charging ? Colors.colPurple : Colors.colWhite
 
         font {
             family: "SF Pro Display"

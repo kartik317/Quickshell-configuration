@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Mpris
-import "../state" as State
-import "../theme" as Theme
+import "../state"
+import "../theme"
 
 Item {
     id: root
@@ -18,13 +18,13 @@ Item {
         Rectangle {
             width: 30; height: 26
             radius: 6
-            color: Theme.Colors.colBlack
+            color: Colors.colBlack
             clip: true
-            visible: State.MediaState.hasPlayer
+            visible: MediaState.hasPlayer
 
             Image {
                 anchors.fill: parent
-                source: State.MediaState.artUrl
+                source: MediaState.artUrl
                 fillMode: Image.PreserveAspectCrop
                 asynchronous: true
             }
@@ -36,21 +36,21 @@ Item {
             Layout.maximumWidth: 160
 
             Text {
-                text: State.MediaState.title
-                color: Theme.Colors.colFg
+                text: MediaState.title
+                color: Colors.colFg
                 font.pixelSize: 12
                 font.family: "JetBrainsMono Nerd Font"
                 elide: Text.ElideRight
                 Layout.maximumWidth: 160
             }
             Text {
-                text: State.MediaState.artist
-                color: Theme.Colors.colBrightBlack
+                text: MediaState.artist
+                color: Colors.colBrightBlack
                 font.pixelSize: 10
                 font.family: "JetBrainsMono Nerd Font"
                 elide: Text.ElideRight
                 Layout.maximumWidth: 160
-                visible: State.MediaState.artist.length > 0
+                visible: MediaState.artist.length > 0
             }
         }
 
@@ -59,26 +59,26 @@ Item {
             text: "󰒮"
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 20
-            color: State.MediaState.canGoPrevious ? Theme.Colors.colFg : Theme.Colors.colBrightBlack
+            color: MediaState.canGoPrevious ? Colors.colFg : Colors.colBrightBlack
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: -4
                 cursorShape: Qt.PointingHandCursor
-                onClicked: function(event) { State.MediaState.previous(); }
+                onClicked: function(event) { MediaState.previous(); }
             }
         }
 
         // Play/Pause
         Text {
-            text: State.MediaState.isPlaying ? "󰏤" : "󰐊"
+            text: MediaState.isPlaying ? "󰏤" : "󰐊"
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 20
-            color: Theme.Colors.colCyan
+            color: Colors.colFg
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: -4
                 cursorShape: Qt.PointingHandCursor
-                onClicked: function(event) { State.MediaState.togglePlaying(); }
+                onClicked: function(event) { MediaState.togglePlaying(); }
             }
         }
 
@@ -87,12 +87,12 @@ Item {
             text: "󰒭"
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 20
-            color: State.MediaState.canGoNext ? Theme.Colors.colFg : Theme.Colors.colBrightBlack
+            color: MediaState.canGoNext ? Colors.colFg : Colors.colBrightBlack
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: -4
                 cursorShape: Qt.PointingHandCursor
-                onClicked: function(event) { State.MediaState.next(); }
+                onClicked: function(event) { MediaState.next(); }
             }
         }
 
@@ -101,46 +101,30 @@ Item {
             text: "󰒝"
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 17
-            color: State.MediaState.shuffleOn ? Theme.Colors.colCyan : Theme.Colors.colBrightBlack
+            color: MediaState.shuffleOn ? Colors.colFg : Colors.colBrightBlack
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: -4
                 cursorShape: Qt.PointingHandCursor
-                onClicked: function(event) { State.MediaState.toggleShuffle(); }
+                onClicked: function(event) { MediaState.toggleShuffle(); }
             }
         }
 
 	// Repeat (None / Playlist / Track)
 	Text {
 	    id: repeatIcon
-
-	    // Choose icon based on loop state: Track gets repeat-one (󰑘), others get repeat (󰑖)
-	    text: State.MediaState.loopStatus === MprisLoopState.Track ? "󰑘" : "󰑖"
+	    text: MediaState.loopStatus === MprisLoopState.Track ? "󰑘" : "󰑖"
 	    font.family: "JetBrainsMono Nerd Font"
 	    font.pixelSize: 17
 
-	    // Dimmed when turned off, cyan when active (Track or Playlist)
-	    color: State.MediaState.loopStatus !== MprisLoopState.None
-	    ? Theme.Colors.colCyan : Theme.Colors.colBrightBlack
-
-	    // Optional subtle badge indicator if you want an extra visual cue
-	    Text {
-		visible: State.MediaState.loopStatus === MprisLoopState.Track
-		text: "1"
-		font.pixelSize: 8
-		font.bold: true
-		color: Theme.Colors.colCyan
-		anchors.bottom: parent.bottom
-		anchors.right: parent.right
-		anchors.rightMargin: -3
-		anchors.bottomMargin: -2
-	    }
+	    color: MediaState.loopStatus !== MprisLoopState.None
+	    ? Colors.colFg : Colors.colBrightBlack 
 
 	    MouseArea {
 		anchors.fill: parent
 		anchors.margins: -4
 		cursorShape: Qt.PointingHandCursor
-		onClicked: function(event) { State.MediaState.cycleLoop(); }
+		onClicked: function(event) { MediaState.cycleLoop(); }
 	    }
 	}
     }

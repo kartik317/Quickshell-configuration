@@ -149,15 +149,15 @@ PanelWindow {
                 Layout.fillHeight: true
                 Layout.fillWidth:  true
 
-                iconText:    SystemState.volumeMuted         ? "\uf026"
-                             : SystemState.volumeLevel > 60  ? "\uf028"
+                iconText:    Vol_Bri_Controls_State.volumeMuted         ? "\uf026"
+                             : Vol_Bri_Controls_State.volumeLevel > 60  ? "\uf028"
                              :                                 "\uf027"
                 label:       "Vol"
-                sliderValue: SystemState.volumeLevel
-                muted:       SystemState.volumeMuted
+                sliderValue: Vol_Bri_Controls_State.volumeLevel
+                muted:       Vol_Bri_Controls_State.volumeMuted
 
-                onSlide:   val => SystemState.setVolume(val)
-                onIconTap: SystemState.toggleMute()
+                onSlide:   val => Vol_Bri_Controls_State.setVolume(val)
+                onIconTap: Vol_Bri_Controls_State.toggleMute()
             }
 
             Rectangle {
