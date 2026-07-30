@@ -161,41 +161,7 @@ PanelWindow {
                     easing.type: Easing.OutCubic
                 }
             }
-        }
-
-        // I don't know why but the commented out code fixes it weird problems,
-        // but if you uncomment it(don't do that at home),
-        // the corners become cursed.
-
-        // Top border
-        //Rectangle {
-        //anchors.top: parent.top
-        //anchors.left: parent.left
-        //anchors.right: parent.right
-        //height: 1
-        //color: Qt.rgba(1,1,1,0.10)
-        //}
-
-        // Subtle inner highlight on left + right edges
-        //Rectangle {
-        //anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-        //width: 1; color: Qt.rgba(1, 1, 1, 0.05)
-        //}
-        //Rectangle {
-        //anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-        //width: 1; color: Qt.rgba(1, 1, 1, 0.05)
-        //}
-
-        // Absorb clicks AND wheel on the panel background
-        MouseArea {
-            anchors.fill: parent
-            onWheel: function (wheel) {
-                if (wheel.angleDelta.y < 0)
-                    root.navigate(1);
-                else
-                    root.navigate(-1);
-            }
-        }
+        } 
 
         // ── Content ────────────────────────────────────────────────────────
         Column {
@@ -250,18 +216,7 @@ PanelWindow {
                         leftMargin: 14
                         rightMargin: 14
                     }
-                    spacing: 10
-
-                    Text {
-                        text: ""
-                        color: Colors.colFg
-                        opacity: 0.40
-                        font {
-                            pixelSize: 13
-                            family: "JetBrainsMono Nerd Font"
-                        }
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
+                    spacing: 10 
 
                     Item {
                         width: parent.width - 40

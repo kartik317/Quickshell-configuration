@@ -70,7 +70,9 @@ ShellRoot {
             property var modelData
             screen: modelData
         }
-    } 
+    }
+
+    LockScreen {} 
 
     NovaPanel {}
 
