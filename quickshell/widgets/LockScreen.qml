@@ -23,7 +23,16 @@ WlSessionLock {
         Rectangle {
             id: mainContainer
             anchors.fill: parent
-            color: Colors.colBg
+            color: "#000000"
+
+            // Main surface fade-in / fade-out animation
+            opacity: LockScreenState.locked ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 350
+                    easing.type: Easing.OutCubic
+                }
+            }
 
             // Background Wallpaper
             Image {
@@ -32,17 +41,25 @@ WlSessionLock {
                 source: "file://" + Quickshell.env("HOME") + "/.cache/wallpaper_frame.png"
                 fillMode: Image.PreserveAspectCrop
                 smooth: true
-                asynchronous: true
+                asynchronous: false
+                cache: true
+
+                sourceSize.width: surface.width
+                sourceSize.height: surface.height
+
                 visible: false // Hidden so MultiEffect can render the blurred version
             }
 
             // Modern Qt 6 Blur Effect
             MultiEffect {
+                id: blurredWallpaper
                 anchors.fill: wallpaper
                 source: wallpaper
                 blurEnabled: true
-                blur: 0.8 // Value between 0.0 and 1.0
+                blur: 0.8
                 blurMax: 32
+
+                visible: wallpaper.status === Image.Ready
             }
 
             // Dark overlay for contrast
@@ -52,7 +69,7 @@ WlSessionLock {
                 opacity: 0.45
             }
 
-            // Rest of your Lock Card UI...
+            // Lock Card UI
             Item {
                 id: card
                 width: 320
@@ -64,11 +81,20 @@ WlSessionLock {
 
                 transform: Translate { x: card.animOffsetX }
 
+                // Smooth scale and subtle vertical float transition
                 opacity: LockScreenState.locked ? 1 : 0
-                scale: LockScreenState.locked ? 1 : 0.95
+                scale: LockScreenState.locked ? 1.0 : 0.92
+                y: LockScreenState.locked ? (parent.height - height) / 2 : (parent.height - height) / 2 + 15
                 
                 Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-                Behavior on scale { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                Behavior on scale { 
+                    NumberAnimation { 
+                        duration: 350
+                        easing.type: Easing.OutBack
+                        easing.overshoot: 1.2
+                    } 
+                }
+                Behavior on y { NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
 
                 SequentialAnimation {
                     id: shakeAnim
