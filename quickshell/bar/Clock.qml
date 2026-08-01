@@ -4,7 +4,7 @@ import "../theme"
 
 Text {
     text: Qt.formatDateTime(clock.date, "HH:mm")
-    color: Colors.colCyan 
+    color: Colors.colFg 
 
     font {
 	family: "SF Mono"

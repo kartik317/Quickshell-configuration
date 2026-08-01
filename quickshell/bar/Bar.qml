@@ -5,7 +5,6 @@ import Quickshell.Wayland
 import Quickshell.Io
 import "../theme"
 import "../state"
-import "../widgets"
 
 PanelWindow {
     id: root
@@ -34,7 +33,7 @@ PanelWindow {
         anchors.margins: 4
         spacing: 8
 
-        // Left Section: Logo, Workspaces, Layout
+        // Left Section: Logo, Workspaces
         Rectangle {
             Layout.fillHeight: true
             color: root.pillBg
@@ -47,25 +46,27 @@ PanelWindow {
                 spacing: 8
 
                 // Logo
-                Rectangle {
-                    Layout.preferredWidth: 20
-                    Layout.preferredHeight: 20
-                    color: "transparent"
-                    
-                    Image {
-                        anchors.fill: parent
-                        source: "../icons/arch.png"
-                        fillMode: Image.PreserveAspectFit
-                    }
-                    
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            appLauncherProcess.running = true;
-                        }
-                    }
-                }
+		Rectangle {
+		    Layout.preferredWidth: 20
+		    Layout.preferredHeight: 20
+		    color: "transparent"
+
+		    Text {
+			anchors.centerIn: parent
+			text: "\udb82\udcc7"
+			font.family: "JetBrainsMono Nerd Font"
+			font.pixelSize: 22
+			color: Colors.colFg
+		    }
+
+		    MouseArea {
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			onClicked: {
+			    appLauncherProcess.running = true;
+			}
+		    }
+		}
 
                 Separator {}
 
@@ -75,7 +76,21 @@ PanelWindow {
                     fontSize: root.fontSize
                 } 
             }
-	}	
+	}
+
+	// App Shortcuts Pill
+        Rectangle {
+            Layout.fillHeight: true
+            color: root.pillBg
+            radius: root.pillRadius
+            implicitWidth: shortcutsRow.implicitWidth + 16
+
+            RowLayout {
+                id: shortcutsRow
+                anchors.centerIn: parent
+                AppShortcuts {}
+            }
+        }
 	
         // Center Spacer (Pushes left and right sections apart)
         Item {
@@ -129,7 +144,11 @@ PanelWindow {
 
                 Separator {}
 
-                Battery {}
+		Battery {}
+
+		Separator {}
+
+		Volume {}
 
                 Separator {}
 
