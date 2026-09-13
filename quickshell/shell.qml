@@ -8,6 +8,11 @@ import Quickshell.Io
 import "./widgets"
 import "./wallpaper_clock"
 import "./voice_assistant"
+import "./app_launcher"
+import "./live_wallpaper_switcher"
+import "./lock_screen"
+import "./power_menu"
+import "./wallpaper_switcher"
 
 ShellRoot {
     // ── Bar ────────────────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 # Quickshell Configuration
-
+## note: project structure changed quite a bit. I'll update readme soon
 A modern [Quickshell](https://quickshell.outfoxxed.me/) setup for Hyprland-style desktop workflows, featuring a polished top bar, live system monitoring, quick controls, and a compact app launcher.
 
 ![status](https://img.shields.io/badge/status-actively--developed-blue)
@@ -52,47 +52,65 @@ https://github.com/user-attachments/assets/7263ef3d-22f9-47f9-aa4e-f966d1e7af2f
 ## Project Structure
 
 ```text
-quickshell/
-├── bar/
-│   ├── Bar.qml
-│   ├── Battery.qml
-│   ├── Clock.qml
-│   ├── Network.qml
-│   ├── Separator.qml
-│   └── Workspaces.qml
-├── icons/
-│   └── arch.png
-├── scripts/
-│   └── generate_live_thumbs.sh
-├── shell.qml
-├── state/
-│   ├── AppLauncherState.qml
-│   ├── LiveWallpaperState.qml
-│   ├── PowerMenuState.qml
-│   ├── SysMonitorState.qml
-│   ├── SystemState.qml
-│   ├── Vol_Bri_Controls_State.qml
-│   └── WallpaperState.qml
-├── theme/
-│   └── Colors.qml
-├── voice_assistant/
-│   ├── cava-nova.conf
-│   ├── NovaPanel.qml
-│   ├── NovaState.qml
-│   └── NovaWave.qml
-├── wallpaper_clock/
-│   ├── ClockState.qml
-│   ├── DraggableClock.qml
-│   └── WallpaperClock.qml
-└── widgets/
-    ├── AppLauncher.qml
-    ├── GaugeRing.qml
-    ├── LiveWallpaperSwitcher.qml
-    ├── PowerMenu.qml
-    ├── SysMonitor.qml
-    ├── Vol_Bri_Controls.qml
-    ├── VolumeOSD.qml
-    └── WallpaperSwitcher.qml
+├── quickshell
+│   ├── app_launcher
+│   │   ├── AppLauncher.qml
+│   │   └── AppLauncherState.qml
+│   ├── bar
+│   │   ├── AppShortcuts.qml
+│   │   ├── Bar.qml
+│   │   ├── Battery.qml
+│   │   ├── Clock.qml
+│   │   ├── MediaControls.qml
+│   │   ├── Network.qml
+│   │   ├── Separator.qml
+│   │   ├── SysInfo.qml
+│   │   ├── Tray.qml
+│   │   ├── Volume.qml
+│   │   └── Workspaces.qml
+│   ├── icons
+│   │   └── arch.png
+│   ├── live_wallpaper_switcher
+│   │   ├── LiveWallpaperState.qml
+│   │   └── LiveWallpaperSwitcher.qml
+│   ├── lock_screen
+│   │   ├── LockScreen.qml
+│   │   └── LockScreenState.qml
+│   ├── power_menu
+│   │   ├── PowerMenu.qml
+│   │   └── PowerMenuState.qml
+│   ├── scripts
+│   │   └── generate_live_thumbs.sh
+│   ├── shell.qml
+│   ├── state
+│   │   ├── ClockState.qml
+│   │   ├── MediaState.qml
+│   │   ├── SysMonitorState.qml
+│   │   ├── SystemState.qml
+│   │   └── Vol_Bri_Controls_State.qml
+│   ├── theme
+│   │   └── Colors.qml
+│   ├── voice_assistant
+│   │   ├── cava-nova.conf
+│   │   ├── NovaPanel.qml
+│   │   ├── NovaState.qml
+│   │   └── NovaWave.qml
+│   ├── wallpaper_clock
+│   │   ├── ClockState.qml
+│   │   ├── DraggableClock.qml
+│   │   └── WallpaperClock.qml
+│   ├── wallpaper_switcher
+│   │   ├── WallpaperState.qml
+│   │   └── WallpaperSwitcher.qml
+│   └── widgets
+│       ├── Clock.qml
+│       ├── DraggableClock.qml
+│       ├── GaugeRing.qml
+│       ├── MediaControls.qml
+│       ├── SysMonitor.qml
+│       ├── Vol_Bri_Controls.qml
+│       └── VolumeOSD.qml
+└── README.md
 ```
 
 ---
